@@ -1,7 +1,5 @@
 
 
-drop database CRM
-
 
 create database CRM
 go
@@ -66,7 +64,7 @@ create table producto(
 )
 
 create table rol(
-	id int not null unique,
+	id smallint not null unique,
 	tipoRol varchar(15) not null
 	primary key(id)
 )
@@ -79,8 +77,29 @@ create table usuario(
 	departamento varchar (20) not null,
 	nombre_usuario varchar(10) not null,
 	clave varchar(10) not null,
-	rol int not null foreign key references rol (id),
+	rol smallint not null foreign key references rol (id),
 	primary key(cedula)
+)
+
+
+create table modulo(
+	id smallint not null primary key,
+	nombre varchar(25)
+)
+
+create table operaciones(
+	
+	id smallint not null primary key,
+	nombre varchar(25),
+	idModulo smallint not null foreign key references modulo(id)
+)
+
+create table rolxoperaciones(
+
+	id smallint not null primary key,
+	idRol smallint not null foreign key references rol(id),
+	idModulo smallint not null foreign key references modulo(id)
+
 )
 
 create table tarea(
