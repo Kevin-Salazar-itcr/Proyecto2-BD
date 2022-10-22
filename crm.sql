@@ -1,12 +1,12 @@
 USE master
 
-DROP DATABASE CRM
+DROP DATABASE CRM2
 
-create database CRM
+create database CRM2
 go
 
 
-use CRM
+use CRM2
 go
 
 
