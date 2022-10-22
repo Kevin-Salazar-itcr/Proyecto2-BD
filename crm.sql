@@ -1,5 +1,6 @@
+USE master
 
-
+DROP DATABASE CRM
 
 create database CRM
 go
@@ -7,8 +8,6 @@ go
 
 use CRM
 go
-
-
 
 
 
@@ -98,7 +97,7 @@ create table rolxoperaciones(
 
 	id smallint not null primary key,
 	idRol smallint not null foreign key references rol(id),
-	idModulo smallint not null foreign key references modulo(id)
+	idModulo smallint not null foreign key references operaciones(id)
 
 )
 
@@ -266,3 +265,52 @@ create table tareaXejecucion(
 )
 
 
+insert into modulo(id, nombre) values (1 , 'usuarios')
+insert into modulo(id, nombre) values (2 , 'Roles')
+insert into modulo(id, nombre) values (3 , 'Productos')
+insert into modulo(id, nombre) values (4 , 'Ordenes')
+insert into modulo(id, nombre) values (5 , 'Configuracion')
+
+insert into operaciones(id, nombre, idModulo) VALUES (1, 'agregar', 1)
+insert into operaciones(id, nombre, idModulo) VALUES (2, 'editar', 1)
+insert into operaciones(id, nombre, idModulo) VALUES (3, 'eliminar', 1)
+insert into operaciones(id, nombre, idModulo) VALUES (4, 'ver', 1)
+
+
+insert into operaciones(id, nombre, idModulo) VALUES (6, 'agregar', 2)
+insert into operaciones(id, nombre, idModulo) VALUES (7, 'editar', 2)
+insert into operaciones(id, nombre, idModulo) VALUES (8, 'eliminar', 2)
+insert into operaciones(id, nombre, idModulo) VALUES (9, 'ver', 2)
+
+insert into operaciones(id, nombre, idModulo) VALUES (11, 'agregar', 1)
+insert into operaciones(id, nombre, idModulo) VALUES (12, 'editar', 1)
+insert into operaciones(id, nombre, idModulo) VALUES (13, 'eliminar', 1)
+insert into operaciones(id, nombre, idModulo) VALUES (14, 'editar', 1)
+
+INSERT INTO ROL(id, tipoRol) VALUES (1, 'Admi')
+INSERT INTO ROL(id, tipoRol) VALUES (2, 'Usuario')
+
+INSERT INTO usuario(cedula, nombre, apellido1,apellido2, nombre_usuario, clave, departamento, rol) 
+VALUES (118470507, 'Adjany', 'Gard', 'Alpizar', 'adjany08', '1234', 1, 1)
+
+INSERT INTO usuario(cedula, nombre, apellido1,apellido2, nombre_usuario, clave, departamento, rol) 
+VALUES (118470508, 'Kevin', 'Gard', 'Alpizar', 'kevin', '1234', 1, 2)
+
+select * FROM usuario
+left join rol on rol.id = usuario.rol
+
+
+insert INTO rolxoperaciones(id, idRol, idModulo)
+VALUES(1, 1, 1)
+
+insert INTO rolxoperaciones(id, idRol, idModulo)
+VALUES(2, 1, 2)
+
+insert INTO rolxoperaciones(id, idRol, idModulo)
+VALUES(3, 1, 3)
+
+insert INTO rolxoperaciones(id, idRol, idModulo)
+VALUES(4, 1, 4)
+
+insert INTO rolxoperaciones(id, idRol, idModulo)
+VALUES(5, 2, 2)
