@@ -1,12 +1,11 @@
 USE master
+DROP DATABASE CRM
 
-DROP DATABASE CRM2
-
-create database CRM2
+create database CRM
 go
 
 
-use CRM2
+use CRM
 go
 
 
@@ -73,33 +72,13 @@ create table usuario(
 	nombre varchar (20)  not null,
  	apellido1 varchar (20) not null,
 	apellido2 varchar (20) not null,
-	departamento varchar (20) not null,
-	nombre_usuario varchar(10) not null,
-	clave varchar(10) not null,
+	nombre_usuario varchar(20) not null,
+	clave varbinary(500) not null,
 	rol smallint not null foreign key references rol (id),
+	departamento smallint not null foreign key references departamento(id)
 	primary key(cedula)
 )
 
-
-create table modulo(
-	id smallint not null primary key,
-	nombre varchar(25)
-)
-
-create table operaciones(
-	
-	id smallint not null primary key,
-	nombre varchar(25),
-	idModulo smallint not null foreign key references modulo(id)
-)
-
-create table rolxoperaciones(
-
-	id smallint not null primary key,
-	idRol smallint not null foreign key references rol(id),
-	idModulo smallint not null foreign key references operaciones(id)
-
-)
 
 create table tarea(
 	id smallint not null unique,
@@ -265,52 +244,52 @@ create table tareaXejecucion(
 )
 
 
-insert into modulo(id, nombre) values (1 , 'usuarios')
-insert into modulo(id, nombre) values (2 , 'Roles')
-insert into modulo(id, nombre) values (3 , 'Productos')
-insert into modulo(id, nombre) values (4 , 'Ordenes')
-insert into modulo(id, nombre) values (5 , 'Configuracion')
-
-insert into operaciones(id, nombre, idModulo) VALUES (1, 'agregar', 1)
-insert into operaciones(id, nombre, idModulo) VALUES (2, 'editar', 1)
-insert into operaciones(id, nombre, idModulo) VALUES (3, 'eliminar', 1)
-insert into operaciones(id, nombre, idModulo) VALUES (4, 'ver', 1)
+INSERT into departamento   values (1, 'IT')
 
 
-insert into operaciones(id, nombre, idModulo) VALUES (6, 'agregar', 2)
-insert into operaciones(id, nombre, idModulo) VALUES (7, 'editar', 2)
-insert into operaciones(id, nombre, idModulo) VALUES (8, 'eliminar', 2)
-insert into operaciones(id, nombre, idModulo) VALUES (9, 'ver', 2)
-
-insert into operaciones(id, nombre, idModulo) VALUES (11, 'agregar', 1)
-insert into operaciones(id, nombre, idModulo) VALUES (12, 'editar', 1)
-insert into operaciones(id, nombre, idModulo) VALUES (13, 'eliminar', 1)
-insert into operaciones(id, nombre, idModulo) VALUES (14, 'editar', 1)
-
-INSERT INTO ROL(id, tipoRol) VALUES (1, 'Admi')
-INSERT INTO ROL(id, tipoRol) VALUES (2, 'Usuario')
-
-INSERT INTO usuario(cedula, nombre, apellido1,apellido2, nombre_usuario, clave, departamento, rol) 
-VALUES (118470507, 'Adjany', 'Gard', 'Alpizar', 'adjany08', '1234', 1, 1)
-
-INSERT INTO usuario(cedula, nombre, apellido1,apellido2, nombre_usuario, clave, departamento, rol) 
-VALUES (118470508, 'Kevin', 'Gard', 'Alpizar', 'kevin', '1234', 1, 2)
-
-select * FROM usuario
-left join rol on rol.id = usuario.rol
+INSERT INTO ROL(id, tipoRol) VALUES (1, 'Edicion')
+INSERT INTO ROL(id, tipoRol) VALUES (2, 'Visualizacion')
+INSERT INTO ROL(id, tipoRol) VALUES (3, 'Reporteria')
 
 
-insert INTO rolxoperaciones(id, idRol, idModulo)
-VALUES(1, 1, 1)
+go
+create procedure agregarUsuario
+@cedula varchar(10),
+@nombre varchar (20),
+@apellido1 varchar (20),
+@apellido2 varchar (20),
+@nombre_usuario varchar(20),
+@clave varchar(30),
+@rol smallint,
+@departamento smallint,
+@patron varchar(20)
+as
+begin
+insert into usuario(cedula, nombre, apellido1,apellido2, nombre_usuario, clave, departamento, rol) 
+values
+(@cedula, @nombre, @apellido1, @apellido2, @nombre_usuario, ENCRYPTBYPASSPHRASE (@patron, @clave), @departamento, @rol)
+end
 
-insert INTO rolxoperaciones(id, idRol, idModulo)
-VALUES(2, 1, 2)
+go
+create procedure validarUsuario
+@usario varchar(20),
+@clave varchar(30),
+@patron varchar(20)
+as
+begin
+select * from usuario where nombre_usuario = @usario and CONVERT(varchar(30), DECRYPTBYPASSPHRASE(@patron, clave))= @clave
+end
 
-insert INTO rolxoperaciones(id, idRol, idModulo)
-VALUES(3, 1, 3)
 
-insert INTO rolxoperaciones(id, idRol, idModulo)
-VALUES(4, 1, 4)
 
-insert INTO rolxoperaciones(id, idRol, idModulo)
-VALUES(5, 2, 2)
+agregarUsuario '118470507','Adjany','Gard','Alpizar','adjany08','1234',1,1,'adjany'
+
+
+--INSERT INTO usuario(cedula, nombre, apellido1,apellido2, nombre_usuario, clave, departamento, rol) 
+--VALUES (118470507, 'Adjany', 'Gard', 'Alpizar', 'adjany08', '1234', 1, 1)
+
+--INSERT INTO usuario(cedula, nombre, apellido1,apellido2, nombre_usuario, clave, departamento, rol) 
+--VALUES (118470508, 'Kevin', 'Gard', 'Alpizar', 'kevin', '1234', 1, 2)
+
+
+select * from usuario;
