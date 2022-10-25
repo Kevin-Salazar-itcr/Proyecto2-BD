@@ -80,7 +80,8 @@ create table usuario(
 )
 
 
-create table tarea(
+create table tarea
+(
 	id smallint not null unique,
 	estado varchar(10) not null,
 	fechaFinalizacion date not null,
@@ -252,44 +253,21 @@ INSERT INTO ROL(id, tipoRol) VALUES (2, 'Visualizacion')
 INSERT INTO ROL(id, tipoRol) VALUES (3, 'Reporteria')
 
 
-go
-create procedure agregarUsuario
-@cedula varchar(10),
-@nombre varchar (20),
-@apellido1 varchar (20),
-@apellido2 varchar (20),
-@nombre_usuario varchar(20),
-@clave varchar(30),
-@rol smallint,
-@departamento smallint,
-@patron varchar(20)
-as
-begin
-insert into usuario(cedula, nombre, apellido1,apellido2, nombre_usuario, clave, departamento, rol) 
-values
-(@cedula, @nombre, @apellido1, @apellido2, @nombre_usuario, ENCRYPTBYPASSPHRASE (@patron, @clave), @departamento, @rol)
-end
+--agregarUsuario '118470507','Adjany','Gard','Alpizar','adjany08','1234',1,1,'adjany'
 
-go
-create procedure validarUsuario
-@usario varchar(20),
-@clave varchar(30),
-@patron varchar(20)
-as
-begin
-select * from usuario where nombre_usuario = @usario and CONVERT(varchar(30), DECRYPTBYPASSPHRASE(@patron, clave))= @clave
-end
+--agregarFamilia 'LA204', 'Lacteos', 'Productos lacteos'
 
+--agregarFamilia 'HO', 'Hogar', 'Productos de la hogar'
+--agregarFamilia 'CO', 'Cocina', 'Productos de la Cocina'
+--agregarFamilia 'LI', 'Limpieza', 'Productos de limpieza'
+--agregarFamilia 'JA', 'Jardin', 'Productos del jardin'
+--agregarFamilia 'BA', 'Baño', 'Productos para el baño'
+--agregarFamilia 'ESC','Escolares', 'Productos escolares'
+--agregarFamilia 'FEM','Femeninos', 'Productos para el higiene femeninos'
 
-
-agregarUsuario '118470507','Adjany','Gard','Alpizar','adjany08','1234',1,1,'adjany'
-
-
---INSERT INTO usuario(cedula, nombre, apellido1,apellido2, nombre_usuario, clave, departamento, rol) 
---VALUES (118470507, 'Adjany', 'Gard', 'Alpizar', 'adjany08', '1234', 1, 1)
-
---INSERT INTO usuario(cedula, nombre, apellido1,apellido2, nombre_usuario, clave, departamento, rol) 
---VALUES (118470508, 'Kevin', 'Gard', 'Alpizar', 'kevin', '1234', 1, 2)
+--agregarProducto '1', 'Esponja', 'Para el cuerpo', 4512.99, 1, 'BA'
 
 
 select * from usuario;
+select * from producto;
+select * from familia_producto;
