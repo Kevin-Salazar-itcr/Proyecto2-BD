@@ -37,6 +37,27 @@ values
 end
 
 
+
+
+go
+create procedure editarProducto
+	@codigo varchar(10), 
+	@nombre varchar(10), 
+	@descripcion varchar(10),
+	@precio decimal(9,2), 
+	@activo smallint,
+	@familiaProducto varchar(10)
+as
+begin
+UPDATE producto
+SET codigo = @codigo, nombre = @nombre ,descripcion = @descripcion, precio = @precio, activo = @activo, codigo_familia = @familiaProducto
+	Where @codigo = codigo;
+end
+
+
+
+
+
 --Procedimientos almacenados para el manejo de usuarios
 
 go
@@ -77,12 +98,127 @@ create procedure agregarCliente
 @correo varchar (20),
 @sitio varchar(20),
 @contactoP varchar(30),
-@asesor smallint,
+@asesor varchar(10),
 @zona smallint,
-@moneda varchar(20)
+@moneda smallint
 as
 begin
 insert into cliente(nombre_cuenta, celular, telefono,correo, sitio, contacto_principal, asesor, IDzona, IDmoneda) 
 values
 (@nombre_cuenta, @celular, @telefono,@correo, @sitio, @contactoP, @asesor, @zona,@moneda ) 
 end
+
+
+
+--Procedimientos almacenados para guardar contactos 
+
+
+go
+create procedure agregarContacto
+@idContacto smallint,
+@nombre varchar (20),
+@motivo varchar (50),
+@telefono varchar (8),
+@correo varchar(25),
+@direccion varchar(50),
+@descripcion varchar(50),
+@cliente varchar(10),
+@zona smallint,
+@asesor varchar(10),
+@tipoContacto smallint,
+@estado smallint
+
+as
+begin
+insert into contacto
+values
+(@idContacto, @nombre, @motivo, @telefono, @correo, @direccion, @descripcion,@cliente, @zona, @asesor, @tipoContacto, @estado)
+end
+
+
+--Storaged procedures para catalogos 
+
+go
+create procedure agregarTipoContacto
+@id smallint,
+@tipo varchar (20)
+as
+begin
+insert into tipoContacto
+values
+(@id, @tipo)
+end
+
+go
+create procedure agregarzona
+@id smallint,
+@zona varchar (20),
+@sector varchar (20)
+as
+begin
+insert into zonaSector
+values
+(@id, @zona, @sector)
+end
+
+
+
+go
+create procedure agregarEstado
+@id smallint,
+@estado varchar (20)
+as
+begin
+insert into estado
+values
+(@id, @estado)
+end
+
+
+go
+create procedure agregarTarea
+@id smallint,
+@estado varchar (20),
+@fechaFinalizacion date,
+@informacion varchar(15),
+@fechaCreacion date
+as
+begin
+insert into tarea
+values
+(@id, @estado, @fechaFinalizacion, @informacion,  @fechaCreacion)
+end
+
+go
+create procedure agregarActividad
+@id smallint,
+@descripcion varchar (25),
+@fechaIni date,
+@fechaFin date
+as
+begin
+insert into actividad
+values
+(@id, @descripcion, @fechaIni, @fechaFin)
+end
+
+create procedure agregarCxA
+@contacto smallint,
+@actividad smallint
+as
+begin
+insert into actividadesXcontacto
+values
+(@contacto, @actividad)
+end
+
+create procedure agregarCxT
+@contacto smallint,
+@tarea smallint
+as
+begin
+insert into tareaXcontacto
+values
+(@contacto, @tarea)
+end
+
