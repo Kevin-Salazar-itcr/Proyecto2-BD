@@ -1,5 +1,4 @@
-USE master
-DROP DATABASE CRM
+﻿
 
 create database CRM
 go
@@ -52,8 +51,8 @@ create table familia_producto(
 
 create table producto(
 	codigo varchar(10) unique not null,
-	nombre varchar(10) not null,
-	descripcion varchar(10) not null,
+	nombre varchar(20) not null,
+	descripcion varchar(50) not null,
 	precio decimal(9,2) not null, 
 	activo smallint not null check (activo between 0 and 1 ),
 	codigo_familia varchar(10) not null,
@@ -73,7 +72,7 @@ create table usuario(
  	apellido1 varchar (20) not null,
 	apellido2 varchar (20) not null,
 	nombre_usuario varchar(20) not null,
-	clave varbinary(500) not null,
+	clave varchar(500) not null,
 	rol smallint not null foreign key references rol (id),
 	departamento smallint not null foreign key references departamento(id)
 	primary key(cedula)
@@ -89,12 +88,14 @@ create table tarea
 	primary key(id)
 )
 
+alter table tarea add fechaCreacion date not null
+
 create table cliente(
 	nombre_cuenta varchar (10) not null primary key,
 	celular  varchar(8) not null,
 	telefono varchar(8) not null,
-	correo   varchar(25) not null,
-	sitio    varchar(25) not null,
+	correo   varchar(50) not null,
+	sitio    varchar(50) not null,
 	contacto_principal varchar(20) not null,
 	asesor varchar(10) not null foreign key references usuario(cedula),
 	IDzona smallint not null foreign key references zonaSector(id),
@@ -114,8 +115,12 @@ create table estado(
 )
 
 
+
+
 create table contacto(
-	nombre varchar(20) primary key not null, 
+
+	idContacto smallint primary key not null,
+	nombre varchar(20) not null, 
 	motivo varchar(50) not null,
 	telefono varchar(8) not null, 
 	correo  varchar(25) not null,
@@ -129,13 +134,13 @@ create table contacto(
 )
 
 create table actividadesXcontacto(
-    contacto varchar(20) not null foreign key references contacto (nombre), 
+    contacto smallint not null foreign key references contacto (idContacto), 
 	actividad smallint not null foreign key references actividad(id),
 	primary key(contacto,actividad)
 )
 
 create table tareaXcontacto(
-    contacto varchar(20) not null foreign key references contacto (nombre), 
+     contacto smallint not null foreign key references contacto (idContacto), 
 	tarea smallint not null foreign key references tarea(id),
 	primary key(contacto,tarea)
 )
@@ -177,7 +182,7 @@ create table cotizaciones(
 		
 	zona smallint not null foreign key references zonaSector(id),
 	moneda smallint not null foreign key references moneda(id),
-	contacto_asociado varchar (20) not null foreign key references contacto (nombre), 
+	 contactoAsociado smallint not null foreign key references contacto (idContacto), 
 	asesor varchar (10) not null foreign key references usuario(cedula),
 	nombre_cuenta varchar (10) not null foreign key references cliente(nombre_cuenta),
 	etapa smallint not null foreign key references etapa(id),
@@ -244,30 +249,59 @@ create table tareaXejecucion(
 	primary key(ejecucion,tarea)
 )
 
-
+-------------------------------------------------------------------------------------------------------
 INSERT into departamento   values (1, 'IT')
-
-
 INSERT INTO ROL(id, tipoRol) VALUES (1, 'Edicion')
 INSERT INTO ROL(id, tipoRol) VALUES (2, 'Visualizacion')
 INSERT INTO ROL(id, tipoRol) VALUES (3, 'Reporteria')
 
+---------------------------------------------------------------------------------------------------------
 
---agregarUsuario '118470507','Adjany','Gard','Alpizar','adjany08','1234',1,1,'adjany'
 
---agregarFamilia 'LA204', 'Lacteos', 'Productos lacteos'
+EXEC agregarUsuario '118470507','Adjany','Gard','Alpizar','adjany08','1234',1,1,'adjany'
 
---agregarFamilia 'HO', 'Hogar', 'Productos de la hogar'
---agregarFamilia 'CO', 'Cocina', 'Productos de la Cocina'
---agregarFamilia 'LI', 'Limpieza', 'Productos de limpieza'
---agregarFamilia 'JA', 'Jardin', 'Productos del jardin'
---agregarFamilia 'BA', 'Ba�o', 'Productos para el ba�o'
---agregarFamilia 'ESC','Escolares', 'Productos escolares'
---agregarFamilia 'FEM','Femeninos', 'Productos para el higiene femeninos'
+EXEC agregarFamilia 'LA204', 'Lacteos', 'Productos lacteos'
+
+EXEC agregarFamilia 'HO', 'Hogar', 'Productos de la hogar'
+EXEC agregarFamilia 'CO', 'Cocina', 'Productos de la Cocina'
+EXEC agregarFamilia 'LI', 'Limpieza', 'Productos de limpieza'
+EXEC agregarFamilia 'JA', 'Jardin', 'Productos del jardin'
+EXEC agregarFamilia 'BA', 'Baño', 'Productos para el baño'
+EXEC agregarFamilia 'ESC','Escolares', 'Productos escolares'
+EXEC agregarFamilia 'FEM','Femeninos', 'Productos para el higiene femeninos'
+
+EXEC agregarTipoContacto 1, 'Acercamiento'
+EXEC agregarTipoContacto 2, 'Prospección'
+EXEC agregarTipoContacto 3, 'Oportunidad'
+
+EXEC agregarEstado 1,'En proceso'
+EXEC agregarEstado 2, 'Finalizado'
+
+EXEC agregarTarea 1, 'Pendiente', '2022-03-25', 'Terminar crud', '2023-03-25'
+EXEC agregarTarea 2, 'Pendiente', '2022-03-25', 'Terminar excel', '2023-03-25'
+EXEC agregarTarea 3, 'Pendiente', '2022-03-25', 'Terminar word', '2023-03-25'
+EXEC agregarTarea 4, 'Pendiente', '2022-03-25', 'Terminar power', '2023-03-25'
+
+EXEC agregarActividad 1, 'Programar', '2023-03-25', '2023-03-26'
+EXEC agregarActividad 2, 'Documentar', '2023-03-25', '2023-03-26'
+EXEC agregarActividad 3, 'Hola mundo', '2023-03-25', '2023-03-26'
+EXEC agregarActividad 4, 'Jugar fifa', '2023-03-25', '2023-03-26'
 
 --agregarProducto '1', 'Esponja', 'Para el cuerpo', 4512.99, 1, 'BA'
 
 
-select * from usuario;
-select * from producto;
-select * from familia_producto;
+insert into moneda values( 1, 'CRC ₡')
+insert into moneda values( 2, 'USD $')
+insert into moneda values( 3, 'EUR €')
+insert into moneda values( 4, 'JPY ¥')
+insert into moneda values( 5, 'GPB £')
+
+insert into zonaSector values(1, 'Limon', 'Centro')
+insert into zonaSector values(2, 'Cartago', 'Centro')
+insert into zonaSector values(3, 'Alajuela', 'Grecia')
+insert into zonaSector values(4, 'Guanacaste', 'Tamarindo')
+
+insert into cliente values('Adjany', '7106204','7105874', 'adjany@gmail.com','www.aostore.com', 'Kevin', '118470507', 1, 4)
+
+
+
