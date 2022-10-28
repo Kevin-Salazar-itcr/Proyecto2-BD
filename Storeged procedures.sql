@@ -100,12 +100,13 @@ create procedure agregarCliente
 @contactoP varchar(30),
 @asesor varchar(10),
 @zona smallint,
+@sector smallint,
 @moneda smallint
 as
 begin
-insert into cliente(nombre_cuenta, celular, telefono,correo, sitio, contacto_principal, asesor, IDzona, IDmoneda) 
+insert into cliente(nombre_cuenta, celular, telefono,correo, sitio, contacto_principal, asesor, IDzona,IDsector, IDmoneda) 
 values
-(@nombre_cuenta, @celular, @telefono,@correo, @sitio, @contactoP, @asesor, @zona,@moneda ) 
+(@nombre_cuenta, @celular, @telefono,@correo, @sitio, @contactoP, @asesor, @zona,@sector,@moneda ) 
 end
 
 
@@ -124,6 +125,7 @@ create procedure agregarContacto
 @descripcion varchar(50),
 @cliente varchar(10),
 @zona smallint,
+@sector smallint,
 @asesor varchar(10),
 @tipoContacto smallint,
 @estado smallint
@@ -132,7 +134,7 @@ as
 begin
 insert into contacto
 values
-(@idContacto, @nombre, @motivo, @telefono, @correo, @direccion, @descripcion,@cliente, @zona, @asesor, @tipoContacto, @estado)
+(@idContacto, @nombre, @motivo, @telefono, @correo, @direccion, @descripcion,@cliente, @zona,@sector, @asesor, @tipoContacto, @estado)
 end
 
 
@@ -149,17 +151,7 @@ values
 (@id, @tipo)
 end
 
-go
-create procedure agregarzona
-@id smallint,
-@zona varchar (20),
-@sector varchar (20)
-as
-begin
-insert into zonaSector
-values
-(@id, @zona, @sector)
-end
+
 
 
 
@@ -181,12 +173,13 @@ create procedure agregarTarea
 @estado varchar (20),
 @fechaFinalizacion date,
 @informacion varchar(15),
-@fechaCreacion date
+@fechaCreacion date,
+@asesor varchar(10)
 as
 begin
 insert into tarea
 values
-(@id, @estado, @fechaFinalizacion, @informacion,  @fechaCreacion)
+(@id, @estado, @fechaFinalizacion, @informacion,  @fechaCreacion,@asesor)
 end
 
 go
@@ -194,14 +187,16 @@ create procedure agregarActividad
 @id smallint,
 @descripcion varchar (25),
 @fechaIni date,
-@fechaFin date
+@fechaFin date,
+@asesor varchar(10)
 as
 begin
 insert into actividad
 values
-(@id, @descripcion, @fechaIni, @fechaFin)
+(@id, @descripcion, @fechaIni, @fechaFin,@asesor)
 end
 
+go
 create procedure agregarCxA
 @contacto smallint,
 @actividad smallint
@@ -212,6 +207,8 @@ values
 (@contacto, @actividad)
 end
 
+
+go
 create procedure agregarCxT
 @contacto smallint,
 @tarea smallint
@@ -221,4 +218,77 @@ insert into tareaXcontacto
 values
 (@contacto, @tarea)
 end
+
+
+
+--Stored Procedures para cotizaciones
+
+go
+create procedure agregarCotizacion
+@numeroCot varchar(10),
+@nombreOpor varchar (10),
+@fechaCot date,
+@fechaCierre date,
+@ordenCompra varchar(10),
+@descripcion varchar(50),
+@factura varchar(20),
+
+@zona smallint,
+@sector smallint,
+@moneda smallint,
+@contactoAsociado smallint,
+@asesor varchar(10),
+@nombreCuenta varchar(10),
+@etapa smallint,
+@probabilidad smallint,
+@tipo smallint,
+@razon varchar(20),
+@contraQuien varchar(20)
+
+as
+begin
+insert into cotizaciones
+values
+(@numeroCot, @nombreOpor, @fechaCot, @fechaCierre, @ordenCompra, @descripcion, @factura, @zona, @sector, 
+@moneda, @contactoAsociado, @asesor,  @nombreCuenta, @etapa, @probabilidad, @tipo, @razon, @contraQuien)
+end
+
+
+go
+create procedure validarContacto
+@contacto smallint
+as
+begin
+select * from contacto where idContacto = @contacto
+end
+
+
+
+go
+create procedure editarCotizacion
+    @numeroCot varchar(10),
+	@nombreOportunidad varchar(10), 
+	@fechaCotizacion date,
+	@fechaCierre date, 
+	@ordenCompra varchar(10),
+	@factura varchar(20),
+	@descripcion varchar(50),
+	@moneda smallint,
+	@etapa smallint,
+	@probabilidad smallint,
+	@tipo smallint,
+	@razon varchar(20),
+	@contraQuien varchar(20)
+
+
+as
+begin
+UPDATE cotizaciones
+SET nombreOportunidad = @nombreOportunidad, fechaCotizacion = @fechaCotizacion, fechaCierra = @fechaCierre,
+	ordenCompra = @ordenCompra, factur = @factura, moneda = @moneda, etapa = @etapa, probabilidad = @probabilidad,
+	tipo = @tipo, razonDenegacion = @razon, contraQuien = @contraQuien, descripcion = @descripcion
+
+	Where @numeroCot = numeroCotizacion;
+end
+
 
