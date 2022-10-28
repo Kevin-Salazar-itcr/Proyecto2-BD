@@ -1,5 +1,4 @@
 ﻿
-
 create database CRM
 go
 
@@ -25,22 +24,19 @@ create table moneda(
 	primary key(id)
 )
 
-create table zonaSector(
+create table zona(
 	id smallint not null unique,
 	zona varchar(20),
+	primary key(id)
+)
+
+create table sector(
+	id smallint not null unique,
 	sector varchar(20)
 	primary key(id)
 )
 
 
-
-create table actividad(
-	id smallint not null unique,
-	descripcion varchar(25),
-	fechaInicio date,
-	fechaFin date
-	primary key(id)
-)
 
 create table familia_producto(
 	codigo varchar(10) not null unique,
@@ -78,33 +74,12 @@ create table usuario(
 	primary key(cedula)
 )
 
-
-create table tarea
-(
+create table actividad(
 	id smallint not null unique,
-	estado varchar(10) not null,
-	fechaFinalizacion date not null,
-	informacion varchar(15) not null,
-	primary key(id)
-)
-
-alter table tarea add fechaCreacion date not null
-
-create table cliente(
-	nombre_cuenta varchar (10) not null primary key,
-	celular  varchar(8) not null,
-	telefono varchar(8) not null,
-	correo   varchar(50) not null,
-	sitio    varchar(50) not null,
-	contacto_principal varchar(20) not null,
-	asesor varchar(10) not null foreign key references usuario(cedula),
-	IDzona smallint not null foreign key references zonaSector(id),
-	IDmoneda smallint not null foreign key references moneda(id),
-)
-
-create table tipoContacto(
-	id smallint not null unique,
-	tipo varchar(20) not null
+	descripcion varchar(25),
+	fechaInicio date,
+	fechaFin date,
+	asesor varchar(10) not null foreign key references usuario(cedula)
 	primary key(id)
 )
 
@@ -114,7 +89,38 @@ create table estado(
 	primary key(id)
 )
 
+create table tarea
+(
+	id smallint not null unique,
+	fechaFinalizacion date not null,
+	fechaCreacion date not null,
+	informacion varchar(15) not null,
+	asesor varchar(10) not null foreign key references usuario(cedula),
+	estado smallint not null foreign key references estado(id),
 
+	primary key(id)
+)
+
+
+
+create table cliente(
+	nombre_cuenta varchar (10) not null primary key,
+	celular  varchar(8) not null,
+	telefono varchar(8) not null,
+	correo   varchar(50) not null,
+	sitio    varchar(50) not null,
+	contacto_principal varchar(20) not null,
+	asesor varchar(10) not null foreign key references usuario(cedula),
+	IDzona smallint not null foreign key references zona(id),
+	IDsector smallint not null foreign key references sector(id),
+	IDmoneda smallint not null foreign key references moneda(id),
+)
+
+create table tipoContacto(
+	id smallint not null unique,
+	tipo varchar(20) not null
+	primary key(id)
+)
 
 
 create table contacto(
@@ -127,7 +133,8 @@ create table contacto(
 	direccion varchar(50) not null,
 	descripcion varchar(50) not null,
 	cliente varchar(10) not null foreign key references cliente (nombre_cuenta), 
-	zona smallint not null foreign key references zonaSector(id),
+	zona smallint not null foreign key references zona(id),
+	sector smallint not null foreign key references sector(id),
 	asesor varchar(10) not null foreign key references usuario(cedula),
 	tipoContacto smallint not null foreign key references tipoContacto(id),
 	estado smallint not null foreign key references estado(id)
@@ -140,7 +147,7 @@ create table actividadesXcontacto(
 )
 
 create table tareaXcontacto(
-     contacto smallint not null foreign key references contacto (idContacto), 
+    contacto smallint not null foreign key references contacto (idContacto), 
 	tarea smallint not null foreign key references tarea(id),
 	primary key(contacto,tarea)
 )
@@ -170,49 +177,61 @@ create table tipoCotizacion(
 	primary key (id)
 )
 
+create table cotizacionDenegada(
+ id varchar(20) unique,
+ razon varchar(100)
+ primary key( id)
+)
+
+create table rivales(
+	id varchar(20) unique,
+	nombre varchar(50),
+	primary key(id)
+)
+
+
 
 
 create table cotizaciones(
-	numero_cotizacion varchar (10) primary key,
-	nombre_oportunidad varchar (10) not null,
-	fecha_cotizacion date not null,  
-	fecha_cierra date not nulL,   
-	orden_de_compra varchar (10) not null, 
-	descripcion varchar (50) not null,  
+
+	numeroCotizacion varchar (10) primary key,
+	nombreOportunidad varchar (10) not null,
+	fechaCotizacion date not null,  
+	fechaCierra date not nulL,   
+	ordenCompra varchar (10) not null, 
+	descripcion varchar (50) not null,
+	factur varchar (20) not null,
 		
-	zona smallint not null foreign key references zonaSector(id),
+	zona smallint not null foreign key references zona(id),
+	sector smallint not null foreign key references sector(id),
 	moneda smallint not null foreign key references moneda(id),
-	 contactoAsociado smallint not null foreign key references contacto (idContacto), 
+	contactoAsociado smallint not null foreign key references contacto (idContacto), 
 	asesor varchar (10) not null foreign key references usuario(cedula),
-	nombre_cuenta varchar (10) not null foreign key references cliente(nombre_cuenta),
+	nombreCuenta varchar (10) not null foreign key references cliente(nombre_cuenta),
 	etapa smallint not null foreign key references etapa(id),
 	probabilidad smallint  not null foreign key references probabilidad(id),
 	tipo smallint not null foreign key references tipoCotizacion(id),
-	inflacion smallint not null foreign key references inflacion(id),
-)
 
-create table cotizacionDenegada(
- numero_cotizacion varchar(10) not null foreign key references cotizaciones (numero_cotizacion),
- razon varchar(100)
- primary key( numero_cotizacion)
+	razonDenegacion varchar(20)  foreign key references cotizacionDenegada(id),
+	contraQuien varchar(20)  foreign key references rivales(id),
 )
 
 create table productosXcotizacion(
  codigo_producto varchar(10) not null foreign key references producto (codigo),
- numero_cotizacion varchar(10) not null foreign key references cotizaciones (numero_cotizacion),
+ numero_cotizacion varchar(10) not null foreign key references cotizaciones (numeroCotizacion),
  cantidad smallint not null,
  precioNegociado decimal(9,2) not null,
  primary key(codigo_producto, numero_cotizacion)
 )
 
 create table tareaXcotizacion(
- numero_cotizacion varchar(10) not null foreign key references cotizaciones (numero_cotizacion),
+ numero_cotizacion varchar(10) not null foreign key references cotizaciones (numeroCotizacion),
  tarea_cotizacion smallint not null foreign key references tarea (id)
  primary key(numero_cotizacion,tarea_cotizacion )
 )
 
 create table actividadXcotizacion(
- numero_cotizacion varchar(10) not null foreign key references cotizaciones (numero_cotizacion),
+ numero_cotizacion varchar(10) not null foreign key references cotizaciones (numeroCotizacion),
  actividad_cotizacion smallint not null foreign key references actividad(id)
  primary key(numero_cotizacion,actividad_cotizacion)
 )
@@ -228,7 +247,7 @@ create table ejecucion(
 	fecha_cierra date not null, 
 
 
-	numero_cotizacion varchar (10) not null foreign key references cotizaciones (numero_cotizacion),
+	numero_cotizacion varchar (10) not null foreign key references cotizaciones (numeroCotizacion),
 	asesor varchar (10) not null foreign key references usuario (cedula),
 	nombre_cuenta varchar (10) not null foreign key references cliente(nombre_cuenta),
 	departamento smallint not null foreign key references departamento(id),
@@ -290,18 +309,54 @@ EXEC agregarActividad 4, 'Jugar fifa', '2023-03-25', '2023-03-26'
 --agregarProducto '1', 'Esponja', 'Para el cuerpo', 4512.99, 1, 'BA'
 
 
-insert into moneda values( 1, 'CRC ₡')
-insert into moneda values( 2, 'USD $')
-insert into moneda values( 3, 'EUR €')
-insert into moneda values( 4, 'JPY ¥')
-insert into moneda values( 5, 'GPB £')
+insert into moneda values( 1, 'CRC₡')
+insert into moneda values( 2, 'USD$')
+insert into moneda values( 3, 'EUR€')
+insert into moneda values( 4, 'JPY¥')
+insert into moneda values( 5, 'GPB£')
 
-insert into zonaSector values(1, 'Limon', 'Centro')
-insert into zonaSector values(2, 'Cartago', 'Centro')
-insert into zonaSector values(3, 'Alajuela', 'Grecia')
-insert into zonaSector values(4, 'Guanacaste', 'Tamarindo')
-
-insert into cliente values('Adjany', '7106204','7105874', 'adjany@gmail.com','www.aostore.com', 'Kevin', '118470507', 1, 4)
+insert into zona values(1, 'Limon')
+insert into zona values(2, 'Cartago')
+insert into zona values(3, 'Alajuela')
+insert into zona values(4, 'Guanacaste')
 
 
 
+insert into sector values(1, 'Norte')
+insert into sector values(2, 'Sur')
+insert into sector values(3, 'Este')
+insert into sector values(4, 'Oeste')
+
+insert into cliente values('Adjany', '7106204','7105874', 'adjany@gmail.com','www.aostore.com', 'Kevin', '118470507', 1,1, 4)
+
+
+
+insert into tarea values(1, '2020-05-12','2020-05-12','LML','118470507',1)
+insert into tarea values(2, '2020-05-12','2020-05-12','LML','118470507',1)
+
+insert into etapa values (1, 'Desarrollo')
+insert into etapa values (2, 'Ejecucion')
+insert into etapa values (3, 'Planeamiento')
+insert into etapa values (4, 'Valoracion')
+
+insert into tipoCotizacion values(1, 'Comercial')
+insert into tipoCotizacion values(2, 'Manofactura')
+insert into tipoCotizacion values(3, 'Contratistas')
+
+insert into probabilidad values (1, 10)
+insert into probabilidad values (2, 20)
+insert into probabilidad values (3, 30)
+
+insert into cotizacionDenegada values(1, 'N/A')
+insert into cotizacionDenegada values(2, 'Precio')
+insert into cotizacionDenegada values(3, 'Calidad')
+
+insert into rivales values(1, 'N/A')
+insert into rivales values(2, 'Walmart')
+insert into rivales values(3, 'Pricesmart')
+
+
+insert into tareaXcontacto values(1,1)
+insert into tareaXcontacto values(1,2)
+
+select * from contacto
