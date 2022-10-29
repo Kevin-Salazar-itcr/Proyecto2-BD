@@ -167,8 +167,12 @@ values
 end
 
 
+DROP procedure agregarTarea
+
 go
 create procedure agregarTarea
+
+@idContacto smallint,
 @id smallint,
 @estado varchar (20),
 @fechaFinalizacion date,
@@ -178,8 +182,9 @@ create procedure agregarTarea
 as
 begin
 insert into tarea
-values
-(@id, @estado, @fechaFinalizacion, @informacion,  @fechaCreacion,@asesor)
+values 
+(@id, @fechaFinalizacion, @fechaCreacion, @informacion,@asesor, @estado)
+INSERT INTO tareaXcontacto VALUES (@idContacto, @id)
 end
 
 go
@@ -292,3 +297,19 @@ SET nombreOportunidad = @nombreOportunidad, fechaCotizacion = @fechaCotizacion, 
 end
 
 
+
+select * from contacto
+
+
+
+create procedure agregarProductos
+@codigo varchar(10),
+@numeroCot varchar(10),
+@cantidad smallint,
+@precioNegociado decimal(9,2)
+as
+begin
+
+insert into productosXcotizacion
+values(@codigo, @numeroCot, @cantidad, @precioNegociado)
+end
