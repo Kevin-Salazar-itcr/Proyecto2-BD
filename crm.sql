@@ -271,6 +271,16 @@ create table tareaXejecucion(
 	primary key(ejecucion,tarea)
 )
 
+create table ValorPresenteCotizaciones(
+	idCotizacion SMALLINT primary key not null,
+	contactoAsociado SMALLINT not null foreign key references contacto(idContacto),
+	nombreOportunidad varchar(10) not null,
+	anioCotizacion smallint,
+	nombreCuenta varchar(10) foreign key references cliente(nombre_cuenta),
+	totalCotizacion decimal(10,2), 
+	totalValorPresente decimal(10,2)
+)
+
 -------------------------------------------------------Seccion de procedimientos almacenado------------------------------------------------------------------------------
 
 use CRM
@@ -850,7 +860,7 @@ JOIN tipoContacto t on c.tipoContacto = T.id
 join estado e on c.estado = e.id
 where cliente = @id;
 end
-
+go
 create procedure obtenerContactos
 
 as
@@ -867,8 +877,60 @@ join estado e on c.estado = e.id
 end
 
 
+go
 
+create procedure calcularTVP
+	
+	@idCotizacion SMALLINT,
+	@contacto SMALLINT,
+	@oportunidad varchar(15),
+	@fechaCotizacion smallint,
+	@cuenta varchar(20),
+	@totalCotizacion decimal(10,2), 
+	@tvp decimal(10,2)
+	
+AS
+begin TRY
+	
+	SET @totalCotizacion = (SELECT SUM( precioNegociado * cantidad ) FROM productosXcotizacion
+							WHERE numero_cotizacion = @idCotizacion)
+	SET @tvp = @totalCotizacion -- en un principio son lo mismo
+	-- tvp inicial es el total de cotizaciones
+	-- los calculos se hacen para obtener la inflacion del siguiente año
 
+	DECLARE @valorInflacion AS FLOAT, @fecha AS SMALLINT
+
+	DECLARE inflacionCursor CURSOR FOR SELECT id, porcentaje FROM inflacion
+	OPEN inflacionCursor
+	FETCH NEXT FROM inflacionCursor INTO @fecha, @valorInflacion
+	WHILE @@fetch_status = 0
+	BEGIN
+
+		if(@fechaCotizacion >= @fecha) 
+			FETCH NEXT FROM inflacionCursor INTO @valorInflacion
+		else
+			begin
+			-- total cotizacion = suma de productos (precio negociado)
+			SET @totalCotizacion = (SELECT sum( precioNegociado * cantidad ) 
+			from productosXcotizacion
+			where numero_cotizacion = @idCotizacion)
+
+			set @tvp = (@tvp + (@tvp*@valorInflacion/100)) -- calculo de la inflacion al siguiente año
+		
+			FETCH NEXT FROM inflacionCursor INTO @valorInflacion
+			end
+	END
+	CLOSE inflacionCursor
+	DEALLOCATE inflacionCursor
+
+	INSERT INTO ValorPresenteCotizaciones 
+	VALUES(@idCotizacion, @contacto, @oportunidad, @fechaCotizacion, @cuenta, @totalCotizacion, @tvp)
+	
+	return 0
+END TRY
+BEGIN CATCH
+	return -1
+END CATCH
 
 ---------------------------------------------------------Seccion de inserts--------------------------------------------------------------------------------------------
 INSERT into departamento   values (1, 'IT')
@@ -943,3 +1005,7 @@ insert into rivales values(3, 'Pricesmart')
 
 
 sELECt * FROM cotizaciones
+
+insert into inflacion values (2020, 4)
+insert into inflacion values (2021, 3)
+insert into inflacion values (2022, 12)
