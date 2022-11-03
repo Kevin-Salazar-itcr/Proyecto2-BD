@@ -8,6 +8,7 @@ namespace ProyectoCRM.Models
         public Contacto()
         {
             Cotizaciones = new HashSet<Cotizacione>();
+            ValorPresenteCotizaciones = new HashSet<ValorPresenteCotizacione>();
             Actividads = new HashSet<Actividad>();
             Tareas = new HashSet<Tarea>();
         }
@@ -33,6 +34,7 @@ namespace ProyectoCRM.Models
         public virtual TipoContacto TipoContactoNavigation { get; set; } = null!;
         public virtual Zona ZonaNavigation { get; set; } = null!;
         public virtual ICollection<Cotizacione> Cotizaciones { get; set; }
+        public virtual ICollection<ValorPresenteCotizacione> ValorPresenteCotizaciones { get; set; }
 
         public virtual ICollection<Actividad> Actividads { get; set; }
         public virtual ICollection<Tarea> Tareas { get; set; }

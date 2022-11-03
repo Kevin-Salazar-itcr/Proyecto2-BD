@@ -18,7 +18,6 @@ namespace ProyectoCRM.Models
         public string Informacion { get; set; } = null!;
         public string Asesor { get; set; } = null!;
         public short Estado { get; set; }
-        
 
         public virtual Usuario AsesorNavigation { get; set; } = null!;
         public virtual Estado EstadoNavigation { get; set; } = null!;
