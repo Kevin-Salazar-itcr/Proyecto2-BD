@@ -23,7 +23,7 @@ create table departamento(
 
 create table moneda(
 	id smallint not null unique,
-	NombreMoneda varchar(10)
+	NombreMoneda varchar(20)
 	primary key(id)
 )
 
@@ -42,19 +42,19 @@ create table sector(
 
 
 create table familia_producto(
-	codigo varchar(10) not null unique,
+	codigo varchar(20) not null unique,
 	nombre varchar(15) not null,
 	descripcion varchar(50) not null
 	primary key(codigo)
 )
 
 create table producto(
-	codigo varchar(10) unique not null,
+	codigo varchar(20) unique not null,
 	nombre varchar(20) not null,
 	descripcion varchar(50) not null,
 	precio decimal(9,2) not null, 
 	activo smallint not null check (activo between 0 and 1 ),
-	codigo_familia varchar(10) not null,
+	codigo_familia varchar(20) not null,
 	primary key(codigo),
 	foreign key (codigo_familia) references familia_producto (codigo)
 )
@@ -66,7 +66,7 @@ create table rol(
 )
 
 create table usuario(
-	cedula varchar(10) not null unique,
+	cedula varchar(20) not null unique,
 	nombre varchar (20)  not null,
  	apellido1 varchar (20) not null,
 	apellido2 varchar (20) not null,
@@ -82,7 +82,7 @@ create table actividad(
 	descripcion varchar(25),
 	fechaInicio date,
 	fechaFin date,
-	asesor varchar(10) not null foreign key references usuario(cedula)
+	asesor varchar(20) not null foreign key references usuario(cedula)
 	primary key(id)
 )
 
@@ -98,7 +98,7 @@ create table tarea
 	fechaFinalizacion date not null,
 	fechaCreacion date not null,
 	informacion varchar(15) not null,
-	asesor varchar(10) not null foreign key references usuario(cedula),
+	asesor varchar(20) not null foreign key references usuario(cedula),
 	estado smallint not null foreign key references estado(id),
 
 	primary key(id)
@@ -107,13 +107,13 @@ create table tarea
 
 
 create table cliente(
-	nombre_cuenta varchar (10) not null primary key,
+	nombre_cuenta varchar (20) not null primary key,
 	celular  varchar(8) not null,
 	telefono varchar(8) not null,
 	correo   varchar(50) not null,
 	sitio    varchar(50) not null,
 	contacto_principal varchar(20) not null,
-	asesor varchar(10) not null foreign key references usuario(cedula),
+	asesor varchar(20) not null foreign key references usuario(cedula),
 	IDzona smallint not null foreign key references zona(id),
 	IDsector smallint not null foreign key references sector(id),
 	IDmoneda smallint not null foreign key references moneda(id),
@@ -135,10 +135,10 @@ create table contacto(
 	correo  varchar(25) not null,
 	direccion varchar(50) not null,
 	descripcion varchar(50) not null,
-	cliente varchar(10) not null foreign key references cliente (nombre_cuenta), 
+	cliente varchar(20) not null foreign key references cliente (nombre_cuenta), 
 	zona smallint not null foreign key references zona(id),
 	sector smallint not null foreign key references sector(id),
-	asesor varchar(10) not null foreign key references usuario(cedula),
+	asesor varchar(20) not null foreign key references usuario(cedula),
 	tipoContacto smallint not null foreign key references tipoContacto(id),
 	estado smallint not null foreign key references estado(id)
 )
@@ -197,11 +197,11 @@ create table rivales(
 
 create table cotizaciones(
 
-	numeroCotizacion varchar (10) primary key,
-	nombreOportunidad varchar (10) not null,
+	numeroCotizacion varchar (20) primary key,
+	nombreOportunidad varchar (20) not null,
 	fechaCotizacion date not null,  
 	fechaCierra date not nulL,   
-	ordenCompra varchar (10) not null, 
+	ordenCompra varchar (20) not null, 
 	descripcion varchar (50) not null,
 	factur varchar (20) not null,
 		
@@ -209,8 +209,8 @@ create table cotizaciones(
 	sector smallint not null foreign key references sector(id),
 	moneda smallint not null foreign key references moneda(id),
 	contactoAsociado smallint not null foreign key references contacto (idContacto), 
-	asesor varchar (10) not null foreign key references usuario(cedula),
-	nombreCuenta varchar (10) not null foreign key references cliente(nombre_cuenta),
+	asesor varchar (20) not null foreign key references usuario(cedula),
+	nombreCuenta varchar (20) not null foreign key references cliente(nombre_cuenta),
 	etapa smallint not null foreign key references etapa(id),
 	probabilidad smallint  not null foreign key references probabilidad(id),
 	tipo smallint not null foreign key references tipoCotizacion(id),
@@ -220,21 +220,21 @@ create table cotizaciones(
 )
 
 create table productosXcotizacion(
- codigo_producto varchar(10) not null foreign key references producto (codigo),
- numero_cotizacion varchar(10) not null foreign key references cotizaciones (numeroCotizacion),
+ codigo_producto varchar(20) not null foreign key references producto (codigo),
+ numero_cotizacion varchar(20) not null foreign key references cotizaciones (numeroCotizacion),
  cantidad smallint not null,
  precioNegociado decimal(9,2) not null,
  primary key(codigo_producto, numero_cotizacion)
 )
 
 create table tareaXcotizacion(
- numero_cotizacion varchar(10) not null foreign key references cotizaciones (numeroCotizacion),
+ numero_cotizacion varchar(20) not null foreign key references cotizaciones (numeroCotizacion),
  tarea_cotizacion smallint not null foreign key references tarea (id)
  primary key(numero_cotizacion,tarea_cotizacion )
 )
 
 create table actividadXcotizacion(
- numero_cotizacion varchar(10) not null foreign key references cotizaciones (numeroCotizacion),
+ numero_cotizacion varchar(20) not null foreign key references cotizaciones (numeroCotizacion),
  actividad_cotizacion smallint not null foreign key references actividad(id)
  primary key(numero_cotizacion,actividad_cotizacion)
 )
@@ -244,15 +244,15 @@ create table actividadXcotizacion(
 create table ejecucion(
 	IDejecucion smallint not null unique,
 
-	propietario  varchar (10) not null,
-	nombre varchar (10) not null, 
+	propietario  varchar (20) not null,
+	nombre varchar (20) not null, 
 	fecha_ejecucion date not null,
 	fecha_cierra date not null, 
 
 
-	numero_cotizacion varchar (10) not null foreign key references cotizaciones (numeroCotizacion),
-	asesor varchar (10) not null foreign key references usuario (cedula),
-	nombre_cuenta varchar (10) not null foreign key references cliente(nombre_cuenta),
+	numero_cotizacion varchar (20) not null foreign key references cotizaciones (numeroCotizacion),
+	asesor varchar (20) not null foreign key references usuario (cedula),
+	nombre_cuenta varchar (20) not null foreign key references cliente(nombre_cuenta),
 	departamento smallint not null foreign key references departamento(id),
 
 	primary key(IDejecucion)
@@ -274,9 +274,9 @@ create table tareaXejecucion(
 create table ValorPresenteCotizaciones(
 	idCotizacion SMALLINT primary key not null,
 	contactoAsociado SMALLINT not null foreign key references contacto(idContacto),
-	nombreOportunidad varchar(10) not null,
+	nombreOportunidad varchar(20) not null,
 	anioCotizacion smallint,
-	nombreCuenta varchar(10) foreign key references cliente(nombre_cuenta),
+	nombreCuenta varchar(20) foreign key references cliente(nombre_cuenta),
 	totalCotizacion decimal(10,2), 
 	totalValorPresente decimal(10,2)
 )
@@ -293,7 +293,7 @@ use CRM
 
 go
 create procedure agregarFamilia
-@codigo varchar(10),
+@codigo varchar(20),
 @nombre varchar (20),
 @descripcion varchar (50)
 as
@@ -317,12 +317,12 @@ end catch
 go
 
 create procedure agregarProducto
-	@codigo varchar(10), 
-	@nombre varchar(10), 
-	@descripcion varchar(10), 
+	@codigo varchar(20), 
+	@nombre varchar(20), 
+	@descripcion varchar(20), 
 	@precio decimal(9,2), 
 	@activo smallint, 
-	@codigo_familia varchar(10)
+	@codigo_familia varchar(20)
 as
 IF EXISTS (select codigo from producto where codigo = @codigo)
 	BEGIN
@@ -343,12 +343,12 @@ END
 go
 
 create procedure editarProducto
-	@codigo varchar(10), 
-	@nombre varchar(10), 
-	@descripcion varchar(10),
+	@codigo varchar(20), 
+	@nombre varchar(20), 
+	@descripcion varchar(20),
 	@precio decimal(9,2), 
 	@activo smallint,
-	@familiaProducto varchar(10)
+	@familiaProducto varchar(20)
 as
 begin
 BEGIN TRY
@@ -371,7 +371,7 @@ end
 go
 
 create procedure agregarUsuario
-@cedula varchar(10),
+@cedula varchar(20),
 @nombre varchar (20),
 @apellido1 varchar (20),
 @apellido2 varchar (20),
@@ -419,13 +419,13 @@ END CATCH;
 go
 
 create procedure agregarCliente
-@nombre_cuenta varchar(10),
+@nombre_cuenta varchar(20),
 @celular varchar (20),
 @telefono varchar (20),
 @correo varchar (20),
 @sitio varchar(20),
 @contactoP varchar(30),
-@asesor varchar(10),
+@asesor varchar(20),
 @zona smallint,
 @sector smallint,
 @moneda smallint
@@ -459,10 +459,10 @@ create procedure agregarContacto
 @correo varchar(25),
 @direccion varchar(50),
 @descripcion varchar(50),
-@cliente varchar(10),
+@cliente varchar(20),
 @zona smallint,
 @sector smallint,
-@asesor varchar(10),
+@asesor varchar(20),
 @tipoContacto smallint,
 @estado smallint
 
@@ -484,7 +484,7 @@ end catch
 
 GO
 create procedure eliminarCliente
-@Id varchar(10)
+@Id varchar(20)
 as
 BEGIN TRY
 	delete from cliente where nombre_cuenta = @Id
@@ -551,7 +551,7 @@ create procedure agregarTarea
 @fechaFinalizacion date,
 @informacion varchar(15),
 @fechaCreacion date,
-@asesor varchar(10)
+@asesor varchar(20)
 as
 IF EXISTS (select id from tarea where id = @idContacto)
 	BEGIN
@@ -578,7 +578,7 @@ create procedure agregarActividad
 @descripcion varchar (25),
 @fechaIni date,
 @fechaFin date,
-@asesor varchar(10)
+@asesor varchar(20)
 as
 IF EXISTS (select id from actividad where id = @id)
 	BEGIN
@@ -636,11 +636,11 @@ end CATCH
 go
 
 create procedure agregarCotizacion
-@numeroCot varchar(10),
-@nombreOpor varchar (10),
+@numeroCot varchar(20),
+@nombreOpor varchar (20),
 @fechaCot date,
 @fechaCierre date,
-@ordenCompra varchar(10),
+@ordenCompra varchar(20),
 @descripcion varchar(50),
 @factura varchar(20),
 
@@ -648,8 +648,8 @@ create procedure agregarCotizacion
 @sector smallint,
 @moneda smallint,
 @contactoAsociado smallint,
-@asesor varchar(10),
-@nombreCuenta varchar(10),
+@asesor varchar(20),
+@nombreCuenta varchar(20),
 @etapa smallint,
 @probabilidad smallint,
 @tipo smallint,
@@ -687,11 +687,11 @@ end catch;
 go
 
 create procedure editarCotizacion
-    @numeroCot varchar(10),
-	@nombreOportunidad varchar(10), 
+    @numeroCot varchar(20),
+	@nombreOportunidad varchar(20), 
 	@fechaCotizacion date,
 	@fechaCierre date, 
-	@ordenCompra varchar(10),
+	@ordenCompra varchar(20),
 	@factura varchar(20),
 	@descripcion varchar(50),
 	@moneda smallint,
@@ -722,8 +722,8 @@ select * from contacto
 go
 
 create procedure agregarProductos
-@codigo varchar(10),
-@numeroCot varchar(10),
+@codigo varchar(20),
+@numeroCot varchar(20),
 @cantidad smallint,
 @precioNegociado decimal(9,2)
 
@@ -742,7 +742,7 @@ GO
 create procedure editarTarea
 	@id  smallint, 
 	@fechafin date, 
-	@asesor varchar(10),
+	@asesor varchar(20),
 	@estado smallint
 as
 begin TRY
@@ -760,7 +760,7 @@ go
 create procedure editarActividad
 	@id  smallint, 
 	@fechafin date, 
-	@asesor varchar(10)
+	@asesor varchar(20)
 as
 begin try
 	UPDATE actividad
@@ -803,7 +803,7 @@ end
 
 go
 create procedure obtenerCot
-@id varchar(10)
+@id varchar(20)
 as
 begin
 SELECT numeroCotizacion, nombreOportunidad, fechaCotizacion, fechaCierra, ordenCompra, co.descripcion, factur, Z.zona,s.sector, M.NombreMoneda,contacto.nombre, usuario.nombre + ' '+usuario.apellido1 
@@ -847,7 +847,7 @@ end
 go
 
 create procedure obtenerContactoCliente
-@id varchar(10)
+@id varchar(20)
 as
 begin
 select  c.idContacto, c.nombre, c.motivo, c.telefono, c.correo, direccion , descripcion, ce.nombre_cuenta,z.zona, s.sector, u.nombre + ' '+u.apellido1 as asesor, t.tipo, e.estado
