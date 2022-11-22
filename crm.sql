@@ -247,9 +247,8 @@ create table ejecucion(
 	propietario  varchar (20) not null,
 	nombre varchar (20) not null, 
 	fecha_ejecucion date not null,
-	fecha_cierra date not null, 
-
-
+	fecha_cierra date,
+	estado bit not null,
 	numero_cotizacion varchar (20) not null foreign key references cotizaciones (numeroCotizacion),
 	asesor varchar (20) not null foreign key references usuario (cedula),
 	nombre_cuenta varchar (20) not null foreign key references cliente(nombre_cuenta),
@@ -270,6 +269,34 @@ create table tareaXejecucion(
 	tarea smallint not null foreign key references tarea(id),
 	primary key(ejecucion,tarea)
 )
+
+
+create table estadoCaso(
+	id smallint primary key,
+	estado varchar(20)
+)
+
+create Table tipoCaso(
+	id smallint primary key,
+	tipo varchar(20)
+)
+
+create table casos(
+	idCaso varchar(20),
+	origen varchar(20),
+	fechaCreacion date,
+	prioridad varchar(20),
+	asunto varchar(20),
+	direccion varchar(50),
+	descripcion varchar(50),
+	propietario varchar(20) references usuario(cedula),
+	nombreCuenta varchar(20) references cliente(nombre_cuenta),
+	cotizacion varchar(20) references cotizaciones(numeroCotizacion),
+	contacto smallint references contacto(idContacto),
+	estado smallint references estadoCaso(id),
+	tipoCaso smallint references tipoCaso(id),
+)
+
 
 create table ValorPresenteCotizaciones(
 	idCotizacion SMALLINT primary key not null,
