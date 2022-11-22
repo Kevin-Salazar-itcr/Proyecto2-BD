@@ -16,7 +16,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     });
 
 
-builder.Services.AddDbContext<CRMContext>(options =>
+builder.Services.AddDbContext<crmContext>(options =>
    options.UseSqlServer(builder.Configuration.GetConnectionString("conexion"))
 
 );

@@ -16,9 +16,9 @@ namespace ProyectoCRM.Controllers
     [Authorize]
     public class ActividadController : Controller
     {
-        private readonly CRMContext _context;
+        private readonly crmContext _context;
 
-        public ActividadController(CRMContext context)
+        public ActividadController(crmContext context)
         {
             _context = context;
         }
