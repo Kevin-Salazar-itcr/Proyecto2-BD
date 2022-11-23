@@ -1,17 +1,18 @@
-﻿@model IEnumerable<ProyectoCRM.Models2.VistaVentaSector>
+﻿@model IEnumerable<ProyectoCRM.Models.VistaVentaSector>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Reporte</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Sector)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Venta)
             </th>

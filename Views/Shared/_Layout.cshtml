@@ -62,24 +62,35 @@
                                 <li><a class="dropdown-item text-light " asp-area="" asp-controller="ProductosCotizacion" asp-action="Create">Agregar productos a cotizacion</a>  </li>
                                 <li><a class="dropdown-item text-light " asp-area="" asp-controller="Cotizaciones" asp-action="Index1">Reportes cotizacion  </a>  </li>
                             </ul>
-                        <li class="nav-item">
 
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Ejecuciones
-                            </a>
-                            <ul class="dropdown-menu text-light bg-dark">
-                                <li><a class="dropdown-item text-light " asp-area="" asp-controller="ConsultaCierreEjecuciones" asp-action="Index">Cantidad de Ejecuciones con cierre por mes, por año</a>  </li>
-                            </ul>
+  
+
                         <li class="nav-item">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Casos
+                                Reportes
                             </a>
                             <ul class="dropdown-menu text-light bg-dark">
-                                <li><a class="dropdown-item text-light " asp-area="" asp-controller="VistaCasosTipoes" asp-action="index">Casos por tipo</a>  </li>
-                                <li><a class="dropdown-item text-light " asp-area="" asp-controller="VistaCasosEstadoes" asp-action="Index">Casos por estado</a>  </li>
-  
+                                <a class="dropdown-item text-light " asp-area="" asp-controller="VistaVentaSectors" asp-action="index">Ventas por sector</a>
+                                <a class="dropdown-item text-light " asp-area="" asp-controller="VistaVentaZonas" asp-action="index">Ventas por zona</a>
+                                <a class="dropdown-item text-light " asp-area="" asp-controller="VistaVentasDepartamentoes" asp-action="index">Ventas por departamento</a>
+                                <a class="dropdown-item text-light " asp-area="" asp-controller="VistaVentasCotXdeptoes" asp-action="index">Ventas y cotizaciones por mes, por año</a>
+                                <a class="dropdown-item text-light " asp-area="" asp-controller="VentaCotizacionesTvps" asp-action="index">Ventas y cotizaciones por mes, por año, en valor presente</a>
+                                <a class="dropdown-item text-light " asp-area="" asp-controller="TotalTareasYactividades" asp-action="index"> Top 10 de cotizaciones con más actividades y tareas</a>
+                                <a class="dropdown-item text-light " asp-area="" asp-controller="CotXtipoes" asp-action="index">Cantidad de cotizaciones por tipo </a>
+                                <a class="dropdown-item text-light " asp-area="" asp-controller="DiferEnciaDiasCots" asp-action="index"> Top 10 de cotizaciones con diferencia entre creación y cierre más alto</a>
+                                <a class="dropdown-item text-light " asp-area="" asp-controller="VistaVentaFamiliums" asp-action="index">Familias de productos vendidos></a>
+                                <a class="dropdown-item text-light " asp-area="" asp-controller="TopProductosVendidoes" asp-action="index">Top 10 productos mas vendidos></a>
+                                <a class="dropdown-item text-light " asp-area="" asp-controller="TopProductosCotizadoes" asp-action="index">Top 10 productos mas cotizados></a>
+                                <a class="dropdown-item text-light " asp-area="" asp-controller="ContactosXusuarios" asp-action="index"> Cantidad de contactos de cliente por usuario</a>
+                                <a class="dropdown-item text-light " asp-area="" asp-controller="TopVentasVendedors" asp-action="index"> Top 10 de vendedores con mayores ventas</a>
+                                <a class="dropdown-item text-light " asp-area="" asp-controller="TareasSinCerrars" asp-action="index">Top 15 de tareas sin cerrar más antiguas.</a>
+                                <a class="dropdown-item " asp-area="" asp-controller="TopVentasClientes" asp-action="index">Top 10 clientes con mayores ventas</a>
+                                <a class="dropdown-item " asp-area="" asp-controller="ClientesXzonas" asp-action="index"> Cantidad de clientes por zona y monto ventas por zona. Zona, cantidad y monto</a>
+                                <a class="dropdown-item text-light " asp-area="" asp-controller="VistaCasosTipoes" asp-action="index">Casos por tipo</a>
+                                <a class="dropdown-item text-light " asp-area="" asp-controller="VistaCasosEstadoes" asp-action="Index">Casos por estado</a>
+                                <li><a class="dropdown-item text-light " asp-area="" asp-controller="ConsultaCierreEjecuciones" asp-action="Index">Cantidad de Ejecuciones con cierre por mes, por año</a>  </li>
+
                             </ul>
                         <li class="nav-item">
                             <a class="nav-link text-danger ml-auto" asp-area="" asp-controller="Acceso" asp-action="Salir">Cerrar sesion</a>

@@ -1,17 +1,18 @@
-﻿@model IEnumerable<ProyectoCRM.Models2.DiferEnciaDiasCot>
+﻿@model IEnumerable<ProyectoCRM.Models.DiferEnciaDiasCot>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Top cotizaciones mas largas</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NumeroCotizacion)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.NombreOportunidad)
             </th>
@@ -27,6 +28,9 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumeroCotizacion)
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.NombreOportunidad)
             </td>
@@ -36,7 +40,6 @@
             <td>
                 @Html.DisplayFor(modelItem => item.DíasDeDiferencía)
             </td>
-            
         </tr>
 }
     </tbody>

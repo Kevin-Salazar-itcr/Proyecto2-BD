@@ -20,9 +20,9 @@ namespace ProyectoCRM.Controllers
     {
 
 
-        private readonly crmContext _context;
+        private readonly CRMContext _context;
 
-        public TareasController(crmContext context)
+        public TareasController(CRMContext context)
         {
             _context = context;
         }

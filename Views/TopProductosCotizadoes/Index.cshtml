@@ -1,23 +1,22 @@
-﻿@model IEnumerable<ProyectoCRM.Models2.TopProductosCotizado>
+﻿@model IEnumerable<ProyectoCRM.Models.TopProductosCotizado>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Reporte</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Descripcion)
+                @Html.DisplayNameFor(model => model.Nombre)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Precio)
+                @Html.DisplayNameFor(model => model.Descripcion)
             </th>
+           
             <th>
                 @Html.DisplayNameFor(model => model.VecesCotizado)
             </th>
@@ -28,11 +27,12 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Descripcion)
+                @Html.DisplayFor(modelItem => item.Nombre)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Precio)
+                @Html.DisplayFor(modelItem => item.Descripcion)
             </td>
+            
             <td>
                 @Html.DisplayFor(modelItem => item.VecesCotizado)
             </td>

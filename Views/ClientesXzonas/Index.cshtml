@@ -1,17 +1,18 @@
-﻿@model IEnumerable<ProyectoCRM.Models2.ClientesXzona>
+﻿@model IEnumerable<ProyectoCRM.Models.ClientesXzona>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Cantidad de clientes por zona y monto de ventas</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
 <table class="table">
     <thead>
         <tr>
+             <th>
+                @Html.DisplayNameFor(model => model.Zona)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Cantidad)
             </th>
@@ -24,16 +25,14 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.Zona)
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Cantidad)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Monto)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Zona">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Zona">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Zona">Delete</a>
             </td>
         </tr>
 }

@@ -18,9 +18,9 @@ namespace ProyectoCRM.Controllers
     [Authorize]
     public class CotizacionesController : Controller
     {
-        private readonly crmContext _context;
+        private readonly CRMContext _context;
 
-        public CotizacionesController(crmContext context)
+        public CotizacionesController(CRMContext context)
         {
             _context = context;
         }

@@ -1,17 +1,18 @@
-﻿@model IEnumerable<ProyectoCRM.Models2.VistaTareasActividadesCot>
+﻿@model IEnumerable<ProyectoCRM.Models.VistaTareasActividadesCot>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Reporte</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NumeroCotizacion)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Total)
             </th>
@@ -21,9 +22,13 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.NumeroCotizacion)
+                </th>
             <td>
                 @Html.DisplayFor(modelItem => item.Total)
             </td>
+
         </tr>
 }
     </tbody>

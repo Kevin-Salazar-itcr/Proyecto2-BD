@@ -1,14 +1,12 @@
-﻿@model IEnumerable<ProyectoCRM.Models2.VistasCotTipo>
+﻿@model IEnumerable<ProyectoCRM.Models.VistasCotTipo>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Reporte</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
 <table class="table">
     <thead>
         <tr>
@@ -24,6 +22,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Total)
             </td>
+
         </tr>
 }
     </tbody>

@@ -1,22 +1,20 @@
-﻿@model IEnumerable<ProyectoCRM.Models2.TareasSinCerrar>
+﻿@model IEnumerable<ProyectoCRM.Models.TareasSinCerrar>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Top 15 taareas más antiguas</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FechaCreacion)
+                @Html.DisplayNameFor(model => model.Informacion)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Informacion)
+                @Html.DisplayNameFor(model => model.FechaCreacion)
             </th>
             <th></th>
         </tr>
@@ -24,12 +22,13 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Informacion)
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FechaCreacion)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Informacion)
-            </td>
+
         </tr>
 }
     </tbody>

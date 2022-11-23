@@ -5,25 +5,32 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace ProyectoCRM.Models
 {
-    public partial class crmContext : DbContext
+    public partial class CRMContext : DbContext
     {
-        public crmContext()
+        public CRMContext()
         {
         }
 
-        public crmContext(DbContextOptions<crmContext> options)
+        public CRMContext(DbContextOptions<CRMContext> options)
             : base(options)
         {
         }
 
         public virtual DbSet<Actividad> Actividads { get; set; } = null!;
+        public virtual DbSet<Caso> Casos { get; set; } = null!;
         public virtual DbSet<Cliente> Clientes { get; set; } = null!;
+        public virtual DbSet<ClientesXzona> ClientesXzonas { get; set; } = null!;
+        public virtual DbSet<ConsultaCierreEjecucione> ConsultaCierreEjecuciones { get; set; } = null!;
         public virtual DbSet<Contacto> Contactos { get; set; } = null!;
+        public virtual DbSet<ContactosXusuario> ContactosXusuarios { get; set; } = null!;
+        public virtual DbSet<CotXtipo> CotXtipos { get; set; } = null!;
         public virtual DbSet<CotizacionDenegadum> CotizacionDenegada { get; set; } = null!;
         public virtual DbSet<Cotizacione> Cotizaciones { get; set; } = null!;
         public virtual DbSet<Departamento> Departamentos { get; set; } = null!;
+        public virtual DbSet<DiferEnciaDiasCot> DiferEnciaDiasCots { get; set; } = null!;
         public virtual DbSet<Ejecucion> Ejecucions { get; set; } = null!;
         public virtual DbSet<Estado> Estados { get; set; } = null!;
+        public virtual DbSet<EstadoCaso> EstadoCasos { get; set; } = null!;
         public virtual DbSet<Etapa> Etapas { get; set; } = null!;
         public virtual DbSet<FamiliaProducto> FamiliaProductos { get; set; } = null!;
         public virtual DbSet<Inflacion> Inflacions { get; set; } = null!;
@@ -35,18 +42,35 @@ namespace ProyectoCRM.Models
         public virtual DbSet<Rol> Rols { get; set; } = null!;
         public virtual DbSet<Sector> Sectors { get; set; } = null!;
         public virtual DbSet<Tarea> Tareas { get; set; } = null!;
+        public virtual DbSet<TareasSinCerrar> TareasSinCerrars { get; set; } = null!;
+        public virtual DbSet<TipoCaso> TipoCasos { get; set; } = null!;
         public virtual DbSet<TipoContacto> TipoContactos { get; set; } = null!;
         public virtual DbSet<TipoCotizacion> TipoCotizacions { get; set; } = null!;
+        public virtual DbSet<TopProductosCotizado> TopProductosCotizados { get; set; } = null!;
+        public virtual DbSet<TopProductosVendido> TopProductosVendidos { get; set; } = null!;
+        public virtual DbSet<TopVentasCliente> TopVentasClientes { get; set; } = null!;
+        public virtual DbSet<TopVentasVendedor> TopVentasVendedors { get; set; } = null!;
+        public virtual DbSet<TotalTareasYactividade> TotalTareasYactividades { get; set; } = null!;
         public virtual DbSet<Usuario> Usuarios { get; set; } = null!;
         public virtual DbSet<ValorPresenteCotizacione> ValorPresenteCotizaciones { get; set; } = null!;
+        public virtual DbSet<VentaCotizacionesTvp> VentaCotizacionesTvps { get; set; } = null!;
+        public virtual DbSet<VistaCasosEstado> VistaCasosEstados { get; set; } = null!;
+        public virtual DbSet<VistaCasosTipo> VistaCasosTipos { get; set; } = null!;
+        public virtual DbSet<VistaTareasActividadesCot> VistaTareasActividadesCots { get; set; } = null!;
+        public virtual DbSet<VistaVentaFamilium> VistaVentaFamilia { get; set; } = null!;
+        public virtual DbSet<VistaVentaSector> VistaVentaSectors { get; set; } = null!;
+        public virtual DbSet<VistaVentaZona> VistaVentaZonas { get; set; } = null!;
+        public virtual DbSet<VistaVentasCotXdepto> VistaVentasCotXdeptos { get; set; } = null!;
+        public virtual DbSet<VistaVentasDepartamento> VistaVentasDepartamentos { get; set; } = null!;
+        public virtual DbSet<VistasCotTipo> VistasCotTipos { get; set; } = null!;
         public virtual DbSet<Zona> Zonas { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=localhost;Database=crm;Trusted_Connection=True;");
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Server=localhost;Database=CRM;integrated security=true;");
             }
         }
 
@@ -56,7 +80,7 @@ namespace ProyectoCRM.Models
             {
                 entity.ToTable("actividad");
 
-                entity.HasIndex(e => e.Id, "UQ__activida__3213E83E265CC858")
+                entity.HasIndex(e => e.Id, "UQ__activida__3213E83E6126B832")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -88,10 +112,102 @@ namespace ProyectoCRM.Models
                     .HasConstraintName("FK__actividad__aseso__403A8C7D");
             });
 
+            modelBuilder.Entity<Caso>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("casos");
+
+                entity.Property(e => e.Asunto)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("asunto");
+
+                entity.Property(e => e.Contacto).HasColumnName("contacto");
+
+                entity.Property(e => e.Cotizacion)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("cotizacion");
+
+                entity.Property(e => e.Descripcion)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("descripcion");
+
+                entity.Property(e => e.Direccion)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("direccion");
+
+                entity.Property(e => e.Estado).HasColumnName("estado");
+
+                entity.Property(e => e.FechaCreacion)
+                    .HasColumnType("date")
+                    .HasColumnName("fechaCreacion");
+
+                entity.Property(e => e.IdCaso)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("idCaso");
+
+                entity.Property(e => e.NombreCuenta)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("nombreCuenta");
+
+                entity.Property(e => e.Origen)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("origen");
+
+                entity.Property(e => e.Prioridad)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("prioridad");
+
+                entity.Property(e => e.Propietario)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("propietario");
+
+                entity.Property(e => e.TipoCaso).HasColumnName("tipoCaso");
+
+                entity.HasOne(d => d.ContactoNavigation)
+                    .WithMany()
+                    .HasForeignKey(d => d.Contacto)
+                    .HasConstraintName("FK__casos__contacto__59904A2C");
+
+                entity.HasOne(d => d.CotizacionNavigation)
+                    .WithMany()
+                    .HasForeignKey(d => d.Cotizacion)
+                    .HasConstraintName("FK__casos__cotizacio__589C25F3");
+
+                entity.HasOne(d => d.EstadoNavigation)
+                    .WithMany()
+                    .HasForeignKey(d => d.Estado)
+                    .HasConstraintName("FK__casos__estado__5A846E65");
+
+                entity.HasOne(d => d.NombreCuentaNavigation)
+                    .WithMany()
+                    .HasForeignKey(d => d.NombreCuenta)
+                    .HasConstraintName("FK__casos__nombreCue__57A801BA");
+
+                entity.HasOne(d => d.PropietarioNavigation)
+                    .WithMany()
+                    .HasForeignKey(d => d.Propietario)
+                    .HasConstraintName("FK__casos__propietar__56B3DD81");
+
+                entity.HasOne(d => d.TipoCasoNavigation)
+                    .WithMany()
+                    .HasForeignKey(d => d.TipoCaso)
+                    .HasConstraintName("FK__casos__tipoCaso__5B78929E");
+            });
+
             modelBuilder.Entity<Cliente>(entity =>
             {
                 entity.HasKey(e => e.NombreCuenta)
-                    .HasName("PK__cliente__7E5CF2B8690CE421");
+                    .HasName("PK__cliente__7E5CF2B819D46E0B");
 
                 entity.ToTable("cliente");
 
@@ -161,10 +277,48 @@ namespace ProyectoCRM.Models
                     .HasConstraintName("FK__cliente__IDzona__4BAC3F29");
             });
 
+            modelBuilder.Entity<ClientesXzona>(entity =>
+            {
+                entity.HasKey(e => e.Zona);
+
+                entity.ToView("clientesXzona");
+
+                entity.Property(e => e.Cantidad).HasColumnName("cantidad");
+
+                entity.Property(e => e.Monto)
+                    .HasColumnType("decimal(38, 2)")
+                    .HasColumnName("monto");
+
+                entity.Property(e => e.Zona)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("zona");
+            });
+
+            modelBuilder.Entity<ConsultaCierreEjecucione>(entity =>
+            {
+                entity.HasKey(e => e.Idejecucion);
+
+
+                entity.ToView("consultaCierreEjecuciones");
+
+                entity.Property(e => e.Idejecucion).HasColumnName("IDejecucion");
+
+                entity.Property(e => e.Nombre)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("nombre");
+
+                entity.Property(e => e.NumeroCotizacion)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("numero_cotizacion");
+            });
+
             modelBuilder.Entity<Contacto>(entity =>
             {
                 entity.HasKey(e => e.IdContacto)
-                    .HasName("PK__contacto__4B1329C755D47589");
+                    .HasName("PK__contacto__4B1329C70DC55EA2");
 
                 entity.ToTable("contacto");
 
@@ -264,7 +418,7 @@ namespace ProyectoCRM.Models
                         r => r.HasOne<Contacto>().WithMany().HasForeignKey("Contacto").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__actividad__conta__5AEE82B9"),
                         j =>
                         {
-                            j.HasKey("Contacto", "Actividad").HasName("PK__activida__387C6263D37F2F33");
+                            j.HasKey("Contacto", "Actividad").HasName("PK__activida__387C62633DBDAC6D");
 
                             j.ToTable("actividadesXcontacto");
 
@@ -281,7 +435,7 @@ namespace ProyectoCRM.Models
                         r => r.HasOne<Contacto>().WithMany().HasForeignKey("Contacto").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__tareaXcon__conta__5EBF139D"),
                         j =>
                         {
-                            j.HasKey("Contacto", "Tarea").HasName("PK__tareaXco__80667CCD3B210DC9");
+                            j.HasKey("Contacto", "Tarea").HasName("PK__tareaXco__80667CCDC475B1C2");
 
                             j.ToTable("tareaXcontacto");
 
@@ -291,11 +445,40 @@ namespace ProyectoCRM.Models
                         });
             });
 
+            modelBuilder.Entity<ContactosXusuario>(entity =>
+            {
+                entity.HasKey(e => e.Nombre);
+
+
+                entity.ToView("ContactosXusuario");
+
+                entity.Property(e => e.CantidadDeContactos).HasColumnName("Cantidad de contactos");
+
+                entity.Property(e => e.Nombre)
+                    .HasMaxLength(62)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<CotXtipo>(entity =>
+            {
+                entity.HasKey(e => e.Tipo);
+
+
+                entity.ToView("CotXtipo");
+
+                entity.Property(e => e.Cantidad).HasColumnName("cantidad");
+
+                entity.Property(e => e.Tipo)
+                    .HasMaxLength(25)
+                    .IsUnicode(false)
+                    .HasColumnName("tipo");
+            });
+
             modelBuilder.Entity<CotizacionDenegadum>(entity =>
             {
                 entity.ToTable("cotizacionDenegada");
 
-                entity.HasIndex(e => e.Id, "UQ__cotizaci__3213E83EAC042FDF")
+                entity.HasIndex(e => e.Id, "UQ__cotizaci__3213E83E6BA7DC34")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -312,7 +495,7 @@ namespace ProyectoCRM.Models
             modelBuilder.Entity<Cotizacione>(entity =>
             {
                 entity.HasKey(e => e.NumeroCotizacion)
-                    .HasName("PK__cotizaci__2B77500B637C933A");
+                    .HasName("PK__cotizaci__2B77500B0439C4EF");
 
                 entity.ToTable("cotizaciones");
 
@@ -455,7 +638,7 @@ namespace ProyectoCRM.Models
                         r => r.HasOne<Cotizacione>().WithMany().HasForeignKey("NumeroCotizacion").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__actividad__numer__07C12930"),
                         j =>
                         {
-                            j.HasKey("NumeroCotizacion", "ActividadCotizacion").HasName("PK__activida__E60993CC090570E0");
+                            j.HasKey("NumeroCotizacion", "ActividadCotizacion").HasName("PK__activida__E60993CC37BD30F3");
 
                             j.ToTable("actividadXcotizacion");
 
@@ -472,7 +655,7 @@ namespace ProyectoCRM.Models
                         r => r.HasOne<Cotizacione>().WithMany().HasForeignKey("NumeroCotizacion").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__tareaXcot__numer__03F0984C"),
                         j =>
                         {
-                            j.HasKey("NumeroCotizacion", "TareaCotizacion").HasName("PK__tareaXco__78BCABADE8EAAF31");
+                            j.HasKey("NumeroCotizacion", "TareaCotizacion").HasName("PK__tareaXco__78BCABAD88D22B52");
 
                             j.ToTable("tareaXcotizacion");
 
@@ -486,7 +669,7 @@ namespace ProyectoCRM.Models
             {
                 entity.ToTable("departamento");
 
-                entity.HasIndex(e => e.Id, "UQ__departam__3213E83EAA263B5C")
+                entity.HasIndex(e => e.Id, "UQ__departam__3213E83E474D52BA")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -499,14 +682,39 @@ namespace ProyectoCRM.Models
                     .HasColumnName("nombre");
             });
 
+            modelBuilder.Entity<DiferEnciaDiasCot>(entity =>
+            {
+                entity.HasKey(e => e.NumeroCotizacion);
+
+
+                entity.ToView("DiferEnciaDiasCot");
+
+                entity.Property(e => e.DíasDeDiferencía).HasColumnName("Días de diferencía");
+
+                entity.Property(e => e.NombreCuenta)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("nombreCuenta");
+
+                entity.Property(e => e.NombreOportunidad)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("nombreOportunidad");
+
+                entity.Property(e => e.NumeroCotizacion)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("numeroCotizacion");
+            });
+
             modelBuilder.Entity<Ejecucion>(entity =>
             {
                 entity.HasKey(e => e.Idejecucion)
-                    .HasName("PK__ejecucio__7F8C9D195CC5120D");
+                    .HasName("PK__ejecucio__7F8C9D1986F055C7");
 
                 entity.ToTable("ejecucion");
 
-                entity.HasIndex(e => e.Idejecucion, "UQ__ejecucio__7F8C9D1805C5FDB7")
+                entity.HasIndex(e => e.Idejecucion, "UQ__ejecucio__7F8C9D18C90E38FB")
                     .IsUnique();
 
                 entity.Property(e => e.Idejecucion)
@@ -580,7 +788,7 @@ namespace ProyectoCRM.Models
                         r => r.HasOne<Ejecucion>().WithMany().HasForeignKey("Ejecucion").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__actividad__ejecu__123EB7A3"),
                         j =>
                         {
-                            j.HasKey("Ejecucion", "Actividad").HasName("PK__activida__410CFF91489A1598");
+                            j.HasKey("Ejecucion", "Actividad").HasName("PK__activida__410CFF9147EAE5C5");
 
                             j.ToTable("actividadesXejecucion");
 
@@ -597,7 +805,7 @@ namespace ProyectoCRM.Models
                         r => r.HasOne<Ejecucion>().WithMany().HasForeignKey("Ejecucion").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__tareaXeje__ejecu__160F4887"),
                         j =>
                         {
-                            j.HasKey("Ejecucion", "Tarea").HasName("PK__tareaXej__F916E13F1AC025E6");
+                            j.HasKey("Ejecucion", "Tarea").HasName("PK__tareaXej__F916E13F796F41A0");
 
                             j.ToTable("tareaXejecucion");
 
@@ -611,7 +819,7 @@ namespace ProyectoCRM.Models
             {
                 entity.ToTable("estado");
 
-                entity.HasIndex(e => e.Id, "UQ__estado__3213E83E9914FBFB")
+                entity.HasIndex(e => e.Id, "UQ__estado__3213E83E1B6D8C68")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -624,11 +832,25 @@ namespace ProyectoCRM.Models
                     .HasColumnName("estado");
             });
 
+            modelBuilder.Entity<EstadoCaso>(entity =>
+            {
+                entity.ToTable("estadoCaso");
+
+                entity.Property(e => e.Id)
+                    .ValueGeneratedNever()
+                    .HasColumnName("id");
+
+                entity.Property(e => e.Estado)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("estado");
+            });
+
             modelBuilder.Entity<Etapa>(entity =>
             {
                 entity.ToTable("etapa");
 
-                entity.HasIndex(e => e.Id, "UQ__etapa__3213E83E5F671D87")
+                entity.HasIndex(e => e.Id, "UQ__etapa__3213E83ECD6997A3")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -644,11 +866,11 @@ namespace ProyectoCRM.Models
             modelBuilder.Entity<FamiliaProducto>(entity =>
             {
                 entity.HasKey(e => e.Codigo)
-                    .HasName("PK__familia___40F9A2070B2C9CD2");
+                    .HasName("PK__familia___40F9A2070A58C58A");
 
                 entity.ToTable("familia_producto");
 
-                entity.HasIndex(e => e.Codigo, "UQ__familia___40F9A206FF82BBB0")
+                entity.HasIndex(e => e.Codigo, "UQ__familia___40F9A206A2B3D305")
                     .IsUnique();
 
                 entity.Property(e => e.Codigo)
@@ -671,7 +893,7 @@ namespace ProyectoCRM.Models
             {
                 entity.ToTable("inflacion");
 
-                entity.HasIndex(e => e.Id, "UQ__inflacio__3213E83EB6866E5E")
+                entity.HasIndex(e => e.Id, "UQ__inflacio__3213E83E6809B2B7")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -685,7 +907,7 @@ namespace ProyectoCRM.Models
             {
                 entity.ToTable("moneda");
 
-                entity.HasIndex(e => e.Id, "UQ__moneda__3213E83E89F936FA")
+                entity.HasIndex(e => e.Id, "UQ__moneda__3213E83E562E2FF0")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -701,7 +923,7 @@ namespace ProyectoCRM.Models
             {
                 entity.ToTable("probabilidad");
 
-                entity.HasIndex(e => e.Id, "UQ__probabil__3213E83EDC48358C")
+                entity.HasIndex(e => e.Id, "UQ__probabil__3213E83E56C5579E")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -714,11 +936,11 @@ namespace ProyectoCRM.Models
             modelBuilder.Entity<Producto>(entity =>
             {
                 entity.HasKey(e => e.Codigo)
-                    .HasName("PK__producto__40F9A207B8576517");
+                    .HasName("PK__producto__40F9A207AFA21C0D");
 
                 entity.ToTable("producto");
 
-                entity.HasIndex(e => e.Codigo, "UQ__producto__40F9A2061C18AA9E")
+                entity.HasIndex(e => e.Codigo, "UQ__producto__40F9A2063C7A1E88")
                     .IsUnique();
 
                 entity.Property(e => e.Codigo)
@@ -757,7 +979,7 @@ namespace ProyectoCRM.Models
             modelBuilder.Entity<ProductosXcotizacion>(entity =>
             {
                 entity.HasKey(e => new { e.CodigoProducto, e.NumeroCotizacion })
-                    .HasName("PK__producto__E9AA2349E9769A59");
+                    .HasName("PK__producto__E9AA2349DF5562CC");
 
                 entity.ToTable("productosXcotizacion");
 
@@ -794,7 +1016,7 @@ namespace ProyectoCRM.Models
             {
                 entity.ToTable("rivales");
 
-                entity.HasIndex(e => e.Id, "UQ__rivales__3213E83EAA94EBF7")
+                entity.HasIndex(e => e.Id, "UQ__rivales__3213E83ED5B74981")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -812,7 +1034,7 @@ namespace ProyectoCRM.Models
             {
                 entity.ToTable("rol");
 
-                entity.HasIndex(e => e.Id, "UQ__rol__3213E83E56DD08AB")
+                entity.HasIndex(e => e.Id, "UQ__rol__3213E83E0D6B758A")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -829,7 +1051,7 @@ namespace ProyectoCRM.Models
             {
                 entity.ToTable("sector");
 
-                entity.HasIndex(e => e.Id, "UQ__sector__3213E83E9941759F")
+                entity.HasIndex(e => e.Id, "UQ__sector__3213E83E276C64AD")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -846,7 +1068,7 @@ namespace ProyectoCRM.Models
             {
                 entity.ToTable("tarea");
 
-                entity.HasIndex(e => e.Id, "UQ__tarea__3213E83E07DFBF54")
+                entity.HasIndex(e => e.Id, "UQ__tarea__3213E83E456D5690")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -886,11 +1108,46 @@ namespace ProyectoCRM.Models
                     .HasConstraintName("FK__tarea__estado__47DBAE45");
             });
 
+            modelBuilder.Entity<TareasSinCerrar>(entity =>
+            {
+                entity.HasKey(e => e.Nombre);
+
+
+                entity.ToView("tareasSinCerrar");
+
+                entity.Property(e => e.FechaCreacion)
+                    .HasColumnType("date")
+                    .HasColumnName("fechaCreacion");
+
+                entity.Property(e => e.Informacion)
+                    .HasMaxLength(15)
+                    .IsUnicode(false)
+                    .HasColumnName("informacion");
+
+                entity.Property(e => e.Nombre)
+                    .HasMaxLength(62)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<TipoCaso>(entity =>
+            {
+                entity.ToTable("tipoCaso");
+
+                entity.Property(e => e.Id)
+                    .ValueGeneratedNever()
+                    .HasColumnName("id");
+
+                entity.Property(e => e.Tipo)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("tipo");
+            });
+
             modelBuilder.Entity<TipoContacto>(entity =>
             {
                 entity.ToTable("tipoContacto");
 
-                entity.HasIndex(e => e.Id, "UQ__tipoCont__3213E83EB80E8298")
+                entity.HasIndex(e => e.Id, "UQ__tipoCont__3213E83E9FCC2CCD")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -907,7 +1164,7 @@ namespace ProyectoCRM.Models
             {
                 entity.ToTable("tipoCotizacion");
 
-                entity.HasIndex(e => e.Id, "UQ__tipoCoti__3213E83EB3141647")
+                entity.HasIndex(e => e.Id, "UQ__tipoCoti__3213E83EA494C47E")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -920,14 +1177,111 @@ namespace ProyectoCRM.Models
                     .HasColumnName("tipo");
             });
 
+            modelBuilder.Entity<TopProductosCotizado>(entity =>
+            {
+                entity.HasKey(e => e.Nombre);
+
+
+                entity.ToView("TopProductosCotizados");
+
+                entity.Property(e => e.Descripcion)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("descripcion");
+
+                entity.Property(e => e.Nombre)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("nombre");
+
+                entity.Property(e => e.Precio)
+                    .HasColumnType("decimal(9, 2)")
+                    .HasColumnName("precio");
+
+                entity.Property(e => e.VecesCotizado).HasColumnName("veces cotizado");
+            });
+
+            modelBuilder.Entity<TopProductosVendido>(entity =>
+            {
+                entity.HasKey(e => e.Nombre);
+
+
+                entity.ToView("TopProductosVendidos");
+
+                entity.Property(e => e.Descripcion)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("descripcion");
+
+                entity.Property(e => e.Nombre)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("nombre");
+
+                entity.Property(e => e.VecesVendido).HasColumnName("veces vendido");
+            });
+
+            modelBuilder.Entity<TopVentasCliente>(entity =>
+            {
+                entity.HasKey(e => e.NombreCuenta);
+
+
+                entity.ToView("topVentasClientes");
+
+                entity.Property(e => e.NombreCuenta)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("nombre_cuenta");
+
+                entity.Property(e => e.VentaTotal)
+                    .HasColumnType("decimal(9, 2)")
+                    .HasColumnName("Venta total");
+            });
+
+            modelBuilder.Entity<TopVentasVendedor>(entity =>
+            {
+                entity.HasKey(e => e.Vendedor);
+
+
+                entity.ToView("topVentasVendedor");
+
+                entity.Property(e => e.Vendedor)
+                    .HasMaxLength(62)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.VentaTotal)
+                    .HasColumnType("decimal(9, 2)")
+                    .HasColumnName("Venta total");
+            });
+
+            modelBuilder.Entity<TotalTareasYactividade>(entity =>
+            {
+                entity.HasKey(e => e.NumeroCotizacion);
+
+
+                entity.ToView("TotalTareasYactividades");
+
+                entity.Property(e => e.NombreOportunidad)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("nombreOportunidad");
+
+                entity.Property(e => e.NumeroCotizacion)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("numeroCotizacion");
+
+                entity.Property(e => e.TotalTareasYActividades).HasColumnName("Total tareas y actividades");
+            });
+
             modelBuilder.Entity<Usuario>(entity =>
             {
                 entity.HasKey(e => e.Cedula)
-                    .HasName("PK__usuario__415B7BE43C6B2878");
+                    .HasName("PK__usuario__415B7BE4C4F9100D");
 
                 entity.ToTable("usuario");
 
-                entity.HasIndex(e => e.Cedula, "UQ__usuario__415B7BE5A888EF0E")
+                entity.HasIndex(e => e.Cedula, "UQ__usuario__415B7BE565EA5CF9")
                     .IsUnique();
 
                 entity.Property(e => e.Cedula)
@@ -980,7 +1334,7 @@ namespace ProyectoCRM.Models
             modelBuilder.Entity<ValorPresenteCotizacione>(entity =>
             {
                 entity.HasKey(e => e.IdCotizacion)
-                    .HasName("PK__ValorPre__D931C39BBC29D0E6");
+                    .HasName("PK__ValorPre__D931C39B8C697AAD");
 
                 entity.Property(e => e.IdCotizacion)
                     .ValueGeneratedNever()
@@ -1020,11 +1374,188 @@ namespace ProyectoCRM.Models
                     .HasConstraintName("FK__ValorPres__nombr__1AD3FDA4");
             });
 
+            modelBuilder.Entity<VentaCotizacionesTvp>(entity =>
+            {
+                entity.HasKey(e => e.Cotizacion);
+
+
+                entity.ToView("VentaCotizacionesTVP");
+
+                entity.Property(e => e.Cotizacion)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("cotizacion");
+
+                entity.Property(e => e.CuentaAsociada)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("cuentaAsociada");
+
+                entity.Property(e => e.Oportunidad)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("oportunidad");
+
+                entity.Property(e => e.TotalCotizacion)
+                    .HasColumnType("decimal(10, 2)")
+                    .HasColumnName("totalCotizacion");
+
+                entity.Property(e => e.TotalValorPresente)
+                    .HasColumnType("decimal(10, 2)")
+                    .HasColumnName("totalValorPresente");
+            });
+
+            modelBuilder.Entity<VistaCasosEstado>(entity =>
+            {
+                entity.HasKey(e => e.Casos);
+
+
+                entity.ToView("vistaCasosEstado");
+
+                entity.Property(e => e.Casos).HasColumnName("casos");
+
+                entity.Property(e => e.Estado)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("estado");
+            });
+
+            modelBuilder.Entity<VistaCasosTipo>(entity =>
+            {
+                entity.HasKey(e => e.Tipo);
+
+
+                entity.ToView("VistaCasosTipo");
+
+                entity.Property(e => e.Casos).HasColumnName("casos");
+
+                entity.Property(e => e.Tipo)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("tipo");
+            });
+
+            modelBuilder.Entity<VistaTareasActividadesCot>(entity =>
+            {
+                entity.HasKey(e => e.NumeroCotizacion);
+
+
+                entity.ToView("VistaTareasActividadesCot");
+
+                entity.Property(e => e.NumeroCotizacion)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("numeroCotizacion");
+            });
+
+            modelBuilder.Entity<VistaVentaFamilium>(entity =>
+            {
+                entity.HasKey(e => e.Nombre);
+
+
+                entity.ToView("VistaVentaFamilia");
+
+                entity.Property(e => e.Nombre)
+                    .HasMaxLength(15)
+                    .IsUnicode(false)
+                    .HasColumnName("nombre");
+
+                entity.Property(e => e.Venta).HasColumnType("decimal(38, 2)");
+            });
+
+            modelBuilder.Entity<VistaVentaSector>(entity =>
+            {
+                entity.HasKey(e => e.Sector);
+
+
+                entity.ToView("VistaVentaSector");
+
+                entity.Property(e => e.Sector)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("sector");
+
+                entity.Property(e => e.Venta)
+                    .HasColumnType("decimal(38, 2)")
+                    .HasColumnName("venta");
+            });
+
+            modelBuilder.Entity<VistaVentaZona>(entity =>
+            {
+                entity.HasKey(e => e.Zona);
+
+
+                entity.ToView("VistaVentaZona");
+
+                entity.Property(e => e.Venta)
+                    .HasColumnType("decimal(38, 2)")
+                    .HasColumnName("venta");
+
+                entity.Property(e => e.Zona)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("zona");
+            });
+
+            modelBuilder.Entity<VistaVentasCotXdepto>(entity =>
+            {
+                entity.HasKey(e => e.NumeroCotizacion);
+
+
+                entity.ToView("VistaVentasCotXdepto");
+
+                entity.Property(e => e.Nombre)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("nombre");
+
+                entity.Property(e => e.NumeroCotizacion)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("numeroCotizacion");
+
+                entity.Property(e => e.Venta)
+                    .HasColumnType("decimal(38, 2)")
+                    .HasColumnName("venta");
+            });
+
+            modelBuilder.Entity<VistaVentasDepartamento>(entity =>
+            {
+                entity.HasKey(e => e.Nombre);
+
+
+                entity.ToView("VistaVentasDepartamento");
+
+                entity.Property(e => e.Nombre)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("nombre");
+
+                entity.Property(e => e.Venta)
+                    .HasColumnType("decimal(38, 2)")
+                    .HasColumnName("venta");
+            });
+
+            modelBuilder.Entity<VistasCotTipo>(entity =>
+            {
+                entity.HasKey(e => e.Tipo);
+
+
+                entity.ToView("VistasCotTipo");
+
+                entity.Property(e => e.Tipo)
+                    .HasMaxLength(25)
+                    .IsUnicode(false)
+                    .HasColumnName("tipo");
+
+                entity.Property(e => e.Total).HasColumnName("total");
+            });
+
             modelBuilder.Entity<Zona>(entity =>
             {
                 entity.ToTable("zona");
 
-                entity.HasIndex(e => e.Id, "UQ__zona__3213E83E2F3BA572")
+                entity.HasIndex(e => e.Id, "UQ__zona__3213E83EF55707DD")
                     .IsUnique();
 
                 entity.Property(e => e.Id)

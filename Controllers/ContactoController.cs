@@ -19,9 +19,9 @@ namespace ProyectoCRM.Controllers
     [Authorize]
     public class ContactoController : Controller
     {
-        private readonly crmContext _context;
+        private readonly CRMContext _context;
 
-        public ContactoController(crmContext context)
+        public ContactoController(CRMContext context)
         {
             _context = context;
         }
