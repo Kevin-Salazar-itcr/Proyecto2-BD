@@ -5,15 +5,16 @@
 }
 
 <h1>Reporte</h1>
-
+<div id="chart_div">
+</div>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Oportunidad)
+                @Html.DisplayNameFor(model => model.Cotizacion)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CuentaAsociada)
+                @Html.DisplayNameFor(model => model.Oportunidad)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.TotalCotizacion)
@@ -28,10 +29,10 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Oportunidad)
+                @Html.DisplayFor(modelItem => item.Cotizacion)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CuentaAsociada)
+                @Html.DisplayFor(modelItem => item.Oportunidad)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.TotalCotizacion)
@@ -43,3 +44,16 @@
 }
     </tbody>
 </table>
+
+
+<script>
+    title = 'Ventas y cotizaciones en valor presente';
+    width = 600;
+    height = 600;
+    columns.push(["string", "Cotizacion"]);
+    columns.push(["string", "Oportunidad"]);
+    columns.push(["number", "TotalCotizacion"]);
+    columns.push(["number", "TotalValorPresente"]);
+    //google.charts.setOnLoadCallback(pieChart); // circular
+    google.charts.setOnLoadCallback(BarChart); // barra
+</script>

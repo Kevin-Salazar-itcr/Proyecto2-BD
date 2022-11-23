@@ -6,6 +6,8 @@
 
 <h1>Reporte</h1>
 
+<div id="chart_div">
+</div>
 
 <table class="table">
     <thead>
@@ -23,9 +25,23 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.Sector)
+            <td>
                 @Html.DisplayFor(modelItem => item.Venta)
             </td>
         </tr>
 }
     </tbody>
 </table>
+
+
+@*se indican el titulo, las dimensiones y las columnas que tendrá el grafico*@
+<script>
+    title = 'Ventas por sector';
+    width = 600;
+    height = 600;
+    columns.push(["string", "Sector"]);
+    columns.push(["number", "Venta"]);
+    google.charts.setOnLoadCallback(pieChart); // circular
+        //google.charts.setOnLoadCallback(BarChart); // barra
+</script>

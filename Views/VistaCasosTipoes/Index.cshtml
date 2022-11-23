@@ -4,12 +4,17 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Reporte</h1>
+<h1>Casos por tipo</h1>
 
+<div id="chart_div">
+</div>
 
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Tipo)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Casos)
             </th>
@@ -20,6 +25,8 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.Tipo)
+            <td>
                 @Html.DisplayFor(modelItem => item.Casos)
             </td>
 
@@ -27,3 +34,14 @@
 }
     </tbody>
 </table>
+
+@*se indican el titulo, las dimensiones y las columnas que tendrá el grafico*@
+<script>
+    title = 'Casos por tipo';
+    width = 600;
+    height = 600;
+    columns.push(["string", "Tipo"]);
+    columns.push(["number", "Casos"]);
+    google.charts.setOnLoadCallback(pieChart); // circular
+    //google.charts.setOnLoadCallback(BarChart); // barra
+</script>

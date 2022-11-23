@@ -4,9 +4,10 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Reporte</h1>
+<h1>Familias de productos vendidos</h1>
 
-
+<div id="chart_div">
+</div>
 <table class="table">
     <thead>
         <tr>
@@ -33,3 +34,14 @@
 }
     </tbody>
 </table>
+
+@*se indican el titulo, las dimensiones y las columnas que tendrá el grafico*@
+<script>
+    title = 'Familias de productos vendidos';
+    width = 600;
+    height = 600;
+    columns.push(["string", "Nombre"]);
+    columns.push(["number", "Venta"]);
+    google.charts.setOnLoadCallback(pieChart); // circular
+        //google.charts.setOnLoadCallback(BarChart); // barra
+</script>

@@ -6,6 +6,8 @@
 
 <h1>Reporte</h1>
 
+<div id="chart_div">
+</div>
 
 <table class="table">
     <thead>
@@ -32,3 +34,13 @@
 }
     </tbody>
 </table>
+
+<script>
+    title = 'Ventas y cotizaciones por departamento';
+    width = 600;
+    height = 600;
+    columns.push(["string", "Nombre"]);
+    columns.push(["number", "Venta"]);
+    //google.charts.setOnLoadCallback(pieChart); // circular
+    google.charts.setOnLoadCallback(BarChart); // barra
+</script>

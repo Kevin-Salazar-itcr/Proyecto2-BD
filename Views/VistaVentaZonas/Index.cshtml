@@ -6,7 +6,8 @@
 
 <h1>Reporte</h1>
 
-
+<div id="chart_div">
+</div>
 <table class="table">
     <thead>
         <tr>
@@ -34,3 +35,14 @@
 }
     </tbody>
 </table>
+
+@*se indican el titulo, las dimensiones y las columnas que tendrá el grafico*@
+<script>
+    title = 'Ventas por zona';
+    width = 600;
+    height = 600;
+    columns.push(["string", "Zona"]);
+    columns.push(["number", "Venta"]);
+    google.charts.setOnLoadCallback(pieChart); // circular
+        //google.charts.setOnLoadCallback(BarChart); // barra
+</script>
