@@ -35,18 +35,26 @@ namespace ProyectoCRM.Controllers
 
         public async Task<IActionResult> Index1(string buscar)
         {
-            
+
 
 
             if (!String.IsNullOrEmpty(buscar))
             {
-              var oLista1 = ContactosDatos.ListarClient(buscar);
-              return View(oLista1);
+                var oLista1 = ContactosDatos.ListarClient(buscar);
+                return View(oLista1);
             }
 
             var oLista = ContactosDatos.ListarTodo();
 
             return View(oLista);
+        }
+
+
+
+        public async Task<IActionResult> Index2()
+        {
+
+            return View();
         }
 
 

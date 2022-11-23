@@ -1,0 +1,48 @@
+﻿@model IEnumerable<ProyectoCRM.Models2.VentaCotizacionesTvp>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Oportunidad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CuentaAsociada)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalCotizacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalValorPresente)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Oportunidad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CuentaAsociada)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalCotizacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalValorPresente)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -27,6 +27,7 @@
                                 <li><a class="dropdown-item text-light " asp-area="" asp-controller="Producto" asp-action="Create">Agregar producto</a>  </li>
                                 <li><a class="dropdown-item text-light " asp-area="" asp-controller="Producto" asp-action="Index">Listar productos</a>  </li>
                                 <li><a class="dropdown-item text-light " asp-area="" asp-controller="Producto" asp-action="Index">Editar producto</a>  </li>
+                                <li><a class="dropdown-item text-light " asp-area="" asp-controller="Producto" asp-action="Index1">Reportes productos</a>  </li>
                             </ul>
 
                         <li class="nav-item dropdown text-dark ">
@@ -37,7 +38,7 @@
                                 <li><a class="dropdown-item text-light " asp-area="" asp-controller="Clientes" asp-action="Create">Agregar clientes</a>  </li>
                                 <li><a class="dropdown-item text-light " asp-area="" asp-controller="Clientes" asp-action="Index">Listar clientes</a>  </li>
                                 <li><a class="dropdown-item text-light " asp-area="" asp-controller="Clientes" asp-action="Index">Eliminar clientes</a>  </li>
-
+                                <li><a class="dropdown-item text-light " asp-area="" asp-controller="Clientes" asp-action="Index1">Reportes clientes</a>  </li>
                             </ul>
 
                         <li class="nav-item dropdown">
@@ -49,6 +50,7 @@
                                 <li><a class="dropdown-item text-light " asp-area="" asp-controller="Contacto" asp-action="Index">Listar Contactos</a>  </li>
                                 <li><a class="dropdown-item text-light " asp-area="" asp-controller="Tareas" asp-action="Index">Mantenimiento de tareas</a>  </li>
                                 <li><a class="dropdown-item text-light " asp-area="" asp-controller="Actividad" asp-action="Index">Mantenimienro de actividades</a>  </li>
+                                <li><a class="dropdown-item text-light " asp-area="" asp-controller="Contacto" asp-action="Index1">Reportes contactos</a>  </li>
                             </ul>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -58,6 +60,26 @@
                                 <li><a class="dropdown-item text-light " asp-area="" asp-controller="Cotizaciones" asp-action="Create">Agregar cotizacion</a>  </li>
                                 <li><a class="dropdown-item text-light " asp-area="" asp-controller="Cotizaciones" asp-action="Index">Listar cotizaciones</a>  </li>                              
                                 <li><a class="dropdown-item text-light " asp-area="" asp-controller="ProductosCotizacion" asp-action="Create">Agregar productos a cotizacion</a>  </li>
+                                <li><a class="dropdown-item text-light " asp-area="" asp-controller="Cotizaciones" asp-action="Index1">Reportes cotizacion  </a>  </li>
+                            </ul>
+                        <li class="nav-item">
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Ejecuciones
+                            </a>
+                            <ul class="dropdown-menu text-light bg-dark">
+                                <li><a class="dropdown-item text-light " asp-area="" asp-controller="ConsultaCierreEjecuciones" asp-action="Index">Cantidad de Ejecuciones con cierre por mes, por año</a>  </li>
+                            </ul>
+                        <li class="nav-item">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Casos
+                            </a>
+                            <ul class="dropdown-menu text-light bg-dark">
+                                <li><a class="dropdown-item text-light " asp-area="" asp-controller="VistaCasosTipoes" asp-action="index">Casos por tipo</a>  </li>
+                                <li><a class="dropdown-item text-light " asp-area="" asp-controller="VistaCasosEstadoes" asp-action="Index">Casos por estado</a>  </li>
+  
                             </ul>
                         <li class="nav-item">
                             <a class="nav-link text-danger ml-auto" asp-area="" asp-controller="Acceso" asp-action="Salir">Cerrar sesion</a>

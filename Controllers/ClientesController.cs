@@ -33,8 +33,18 @@ namespace ProyectoCRM.Controllers
 
         }
 
-     
-      
+
+        public async Task<IActionResult> Index1()
+        {
+            //LA VISTA MOSTRARÁ UNA LISTA DE CONTACTOS
+            
+
+            return View();
+
+        }
+
+
+
         public IActionResult Create()
         {
             ViewData["Asesor"] = new SelectList(_context.Usuarios, "Cedula", "Nombre");

@@ -36,6 +36,13 @@ namespace ProyectoCRM.Controllers
             return View(oLista);
         }
 
+        public IActionResult index1()
+        {
+            //LA VISTA MOSTRARÁ UNA LISTA DE CONTACTOS
+
+            return View();
+        }
+
 
 
 

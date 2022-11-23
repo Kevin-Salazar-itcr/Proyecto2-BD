@@ -1,0 +1,26 @@
+﻿<h1>Reportes de contactos</h1>
+
+
+
+
+
+<div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Consultas
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item text-light " asp-area="" asp-controller="ContactosXusuarios" asp-action="index"> Cantidad de contactos de cliente por usuario</a>  </li>
+        <a class="dropdown-item text-light " asp-area="" asp-controller="TopVentasVendedors" asp-action="index"> Top 10 de vendedores con mayores ventas</a>  
+        
+            <a class="dropdown-item text-light " asp-area="" asp-controller="TareaSinCerrars" asp-action="index">
+                Top 15 de tareas sin cerrar más antiguas.
+            </a>
+        
+        <a class="dropdown-item text-light " asp-area="" asp-controller="TopVentasVendedors" asp-action="index"> Top 10 de vendedores con mayores ventas</a>  
+
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>

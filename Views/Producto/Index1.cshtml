@@ -1,0 +1,17 @@
+﻿<h1>Reportes de productos</h1>
+
+<div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Consultas
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item text-light " asp-area="" asp-controller="VistaVentaFamiliums" asp-action="index">Familias de productos vendidos></a>  
+        <a class="dropdown-item text-light " asp-area="" asp-controller="TopProductosVendidoes" asp-action="index">Top 10 productos mas vendidos></a>  
+        <a class="dropdown-item text-light " asp-area="" asp-controller="TopProductosCotizadoes" asp-action="index">Top 10 productos mas cotizados></a>  
+    </div>
+</div>
+
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>

@@ -25,6 +25,12 @@ namespace ProyectoCRM.Controllers
             _context = context;
         }
 
+        public async Task<IActionResult> Index1()
+        {
+
+            return View();
+
+        }
 
         public async Task<IActionResult> Index()
         {

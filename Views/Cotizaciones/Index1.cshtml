@@ -1,0 +1,27 @@
+﻿<h1>Reportes de cotizaciones</h1>
+
+<div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Consultas
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item text-light " asp-area="" asp-controller="VistaVentasSectors" asp-action="index">Ventas por sector</a>  
+        <a class="dropdown-item text-light " asp-area="" asp-controller="VistasVentasZonas" asp-action="index">Ventas por zona</a>  
+        <a class="dropdown-item text-light " asp-area="" asp-controller="VistasVentasDepartamentoes" asp-action="index">Ventas por departamento</a>  
+        <a class="dropdown-item text-light " asp-area="" asp-controller="VistaVentasCotXdeptoes" asp-action="index">Ventas y cotizaciones por mes, por año</a> 
+        <a class="dropdown-item text-light " asp-area="" asp-controller="VentaCotizacionesTvps" asp-action="index">Ventas y cotizaciones por mes, por año, en valor presente</a>  
+        <a class="dropdown-item text-light " asp-area="" asp-controller="TotalTareasYactividades" asp-action="index"> Top 10 de cotizaciones con más actividades y tareas</a>  
+        <a class="dropdown-item text-light " asp-area="" asp-controller="CotXtipoes" asp-action="index">Cantidad de cotizaciones por tipo </a>  
+        <a class="dropdown-item text-light " asp-area="" asp-controller="DiferEnciasDias" asp-action="index"> Top 10 de cotizaciones con diferencia entre creación y cierre más alto</a>  
+        
+            <a class="dropdown-item text-light " asp-area="" asp-controller="TopVentasClientes" asp-action="index">
+                 Top 10 de cotizaciones con diferencia entre creación y cierre más altos 
+            </a>
+        
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src=" bootstrap.bundle.min.js / bootstrap.bundle.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
